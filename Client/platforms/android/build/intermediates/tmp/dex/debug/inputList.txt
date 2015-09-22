@@ -1,0 +1,2 @@
+/home/petscho/myApp/platforms/android/build/intermediates/classes/debug
+/home/petscho/myApp/platforms/android/build/intermediates/pre-dexed/debug/classes-c3d24c3bcd6176a0723d8ea375d4e10e9a6ce10e.jar
