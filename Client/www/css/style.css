@@ -1,5 +1,16 @@
+.bar-stable.bar.bar-header {
+	background-color: #cf3435;
+}
+
+.button.button-icon.button-clear.ion-navicon {
+	color: white;
+}
+
 .ng-binding {
-	font-family: monospace;
-	font-size: 1rem;
+	font: 1rem "Myriad Pro", sans-serif;
+}
+
+.title.title-left.header-item {
+	color: white;
 }
 
