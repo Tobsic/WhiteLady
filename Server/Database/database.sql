@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 24, 2015 at 04:23 PM
+-- Generation Time: Sep 24, 2015 at 10:41 PM
 -- Server version: 5.5.44-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.12
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `Acl` (
   `acl_username` varchar(255) NOT NULL,
   `acl_password` varchar(255) NOT NULL,
   `acl_isAdmin` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Acl`
@@ -52,14 +52,17 @@ CREATE TABLE IF NOT EXISTS `Gps` (
   `gps_id` int(6) NOT NULL,
   `gps_long` double(22,20) NOT NULL,
   `gps_lat` double(22,20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Gps`
 --
 
 INSERT INTO `Gps` (`gps_id`, `gps_long`, `gps_lat`) VALUES
-(2, 22.44000000000000000000, 55.33000000000000000000);
+(2, 22.44000000000000000000, 55.33000000000000000000),
+(3, 12.57368767191263500000, 32.76876187687168000000),
+(4, 12.34000000000000000000, 56.78000000000000000000),
+(5, 12.34000000000000000000, 56.78000000000000000000);
 
 -- --------------------------------------------------------
 
@@ -98,18 +101,19 @@ INSERT INTO `Location` (`location_id`, `location_name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `Media` (
   `media_id` int(6) NOT NULL,
+  `poi_id` int(6) NOT NULL,
   `media_name` varchar(255) DEFAULT NULL,
-  `media_url` varchar(255) DEFAULT NULL,
-  `media_text` varchar(10000) DEFAULT NULL,
-  `media_type` varchar(50) NOT NULL
+  `media_content` varchar(10000) DEFAULT NULL,
+  `media_type` varchar(50) NOT NULL,
+  `media_pagenumber` int(2) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Media`
 --
 
-INSERT INTO `Media` (`media_id`, `media_name`, `media_url`, `media_text`, `media_type`) VALUES
-(1, 'TestMedia', NULL, 'Some sample Text!', 'text/plain');
+INSERT INTO `Media` (`media_id`, `poi_id`, `media_name`, `media_content`, `media_type`, `media_pagenumber`) VALUES
+(1, 0, 'TestMedia', 'Some sample Text!', 'text/plain', 0);
 
 -- --------------------------------------------------------
 
@@ -120,23 +124,25 @@ INSERT INTO `Media` (`media_id`, `media_name`, `media_url`, `media_text`, `media
 CREATE TABLE IF NOT EXISTS `Poi` (
   `poi_id` int(6) NOT NULL,
   `location_id` int(6) NOT NULL,
-  `media_id` int(6) NOT NULL,
   `gps_id` int(6) NOT NULL,
   `poi_type` varchar(255) NOT NULL,
   `poi_name` varchar(255) NOT NULL,
   `poi_description` varchar(1000) DEFAULT NULL,
   `orientation` double(3,2) DEFAULT NULL,
   `autoPlayMedia` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Poi`
 --
 
-INSERT INTO `Poi` (`poi_id`, `location_id`, `media_id`, `gps_id`, `poi_type`, `poi_name`, `poi_description`, `orientation`, `autoPlayMedia`) VALUES
-(1, 3, 1, 2, 'Text', 'TestPoi', 'Here is a test poi', NULL, 0),
-(6, 3, 1, 2, 'Text', 'TestPoi2', 'Description', NULL, 0),
-(7, 3, 1, 2, 'Text', 'TestPoi2', 'Description', NULL, 0);
+INSERT INTO `Poi` (`poi_id`, `location_id`, `gps_id`, `poi_type`, `poi_name`, `poi_description`, `orientation`, `autoPlayMedia`) VALUES
+(1, 3, 2, 'Text', 'TestPoi', 'Here is a test poi', NULL, 0),
+(6, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0),
+(7, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0),
+(8, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0),
+(9, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0),
+(10, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0);
 
 --
 -- Indexes for dumped tables
@@ -167,15 +173,15 @@ ALTER TABLE `Location`
 -- Indexes for table `Media`
 --
 ALTER TABLE `Media`
-  ADD PRIMARY KEY (`media_id`);
+  ADD PRIMARY KEY (`media_id`),
+  ADD KEY `poi_id` (`poi_id`);
 
 --
 -- Indexes for table `Poi`
 --
 ALTER TABLE `Poi`
   ADD PRIMARY KEY (`poi_id`),
-  ADD KEY `foreign_keys` (`location_id`,`media_id`,`gps_id`) USING BTREE,
-  ADD KEY `poi_to_media` (`media_id`),
+  ADD KEY `foreign_keys` (`location_id`,`gps_id`) USING BTREE,
   ADD KEY `poi_to_gps` (`gps_id`);
 
 --
@@ -186,12 +192,12 @@ ALTER TABLE `Poi`
 -- AUTO_INCREMENT for table `Acl`
 --
 ALTER TABLE `Acl`
-  MODIFY `acl_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `acl_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `Gps`
 --
 ALTER TABLE `Gps`
-  MODIFY `gps_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `gps_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `Location`
 --
@@ -206,7 +212,7 @@ ALTER TABLE `Media`
 -- AUTO_INCREMENT for table `Poi`
 --
 ALTER TABLE `Poi`
-  MODIFY `poi_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+  MODIFY `poi_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- Constraints for dumped tables
 --
@@ -222,8 +228,7 @@ ALTER TABLE `Acl`
 --
 ALTER TABLE `Poi`
   ADD CONSTRAINT `poi_to_gps` FOREIGN KEY (`gps_id`) REFERENCES `Gps` (`gps_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `poi_to_location` FOREIGN KEY (`location_id`) REFERENCES `Location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `poi_to_media` FOREIGN KEY (`media_id`) REFERENCES `Media` (`media_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `poi_to_location` FOREIGN KEY (`location_id`) REFERENCES `Location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -596,9 +596,6 @@ class REST_CRUD_API {
 						if($row["acl_isAdmin"] === "1"){
 							return true;
 						}
-						if($CRUDtype === "get"){
-							return true;
-						}
 
 						//creating records is fine, as long it is noch POI
 						if($CRUDtype === "create"){
@@ -626,6 +623,7 @@ class REST_CRUD_API {
 					}
 		  }
 		}
+
     return false;
   }
 
@@ -877,18 +875,6 @@ class REST_CRUD_API {
 				$this->endOutput($callback);
 				return;
 			}
-		} else {
-			$input = (array)$parameters["input"];
-			$db = $parameters["db"];
-			$username = $input["username"];
-			$password = $input["password"];
-			if(!($username === NULL) && !($password === NULL)){
-				$loggedIn = $this->checkLogin($db, $username, $password, "get", $table, NULL);
-				echo "\"loggedIn\":".($loggedIn === true ? 1 : 0).",";
-			}
-			/*echo "\"message\":\"Missing rights to view the structure of this table\", \"errorCode\":-1}";
-			$this->endOutput($callback);
-			return;*/
 		}
 		// first table
 		$count = false;
@@ -1094,7 +1080,7 @@ class REST_CRUD_API {
 			ob_start();
 		}
 		$this->listCommand($parameters);
-    $tablename = $parameters['table'][0];
+    $tablename = $parameters[table][0];
 		if($tablename === "Acl"){
 			return;
 		}
