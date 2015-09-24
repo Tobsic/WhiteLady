@@ -34,3 +34,26 @@ p {
 	border-radius: 5px;
 }
 
+.menu-icon{
+	font-size: 120%;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+a.item-content {
+	font-size: 120%;
+}
+
+.bar.bar-stable .title {
+	color: white;
+}
+
+#menu {
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+
+a[href]:hover {
+	color: #cf3435;
+}
+
