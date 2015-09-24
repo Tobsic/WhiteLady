@@ -14,10 +14,10 @@ angular.module('starter.controllers', [])
 
 .controller('LocationsCtrl', function($scope) {
   $scope.locations = [
-    { title: 'Rabbitwhole', id: 1 },
-    { title: 'Spitzkoppe', id: 2 },
-    { title: 'Brandberg', id: 3 },
-    { title: 'Download new content', id: 4 }
+    { title: 'Rabbitwhole', id: 1, pic: '/img/desert.png'},
+    { title: 'Spitzkoppe', id: 2, pic: '/img/desert.png'},
+    { title: 'Brandberg', id: 3, pic: '/img/desert.png'},
+    { title: 'Download new content', id: 4, pic: '/img/desert.png'}
   ];
 })
 
