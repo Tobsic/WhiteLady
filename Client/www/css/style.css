@@ -18,17 +18,19 @@
 	position: relative;
 	width: 100%;
 	text-align: left;
+	border-radius: 5px;
 }
 
 .item-complex .item-content, .item-radio .item-content {
-	padding: 0;
+	padding: 2px;
 }
 
 p {
 	position: absolute;
-	top: 200px;
-	left: 0;
-	width: 100%;
-	background-color: white;
+	bottom: 5px;
+	background-color: white;	
+	padding: 2px 10px;
+	left: 5px;
+	border-radius: 5px;
 }
 

@@ -1,10 +1,14 @@
-<ion-view view-title="Locations">
+<ion-view>
+	<ion-nav-title>
+	<img src="img/favicon.ico">
+	Rock Art Tour Guide
+	</ion-nav-title>
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="location in locations" href="#/app/locations/{{location.id}}">
       	<div class="item item-image">
       		<img src="{{location.pic}}" alt="Backround picture">
-        	<p>{{location.title}}</p>
+        	<div class="title"><p>{{location.title}}</p></div>
       	</div>
       </ion-item>
     </ion-list>
