@@ -12,7 +12,7 @@ angular.module('starter.controllers', [])
 
 .controller('LocationsCtrl', function($scope, sharedProperties) {
   $scope.locations = sharedProperties.getProperty();
-  console.log($scope.locations);
+  //console.log($scope.locations);
 })
 
 .controller('LocationCtrl', function($scope, sharedProperties) {
