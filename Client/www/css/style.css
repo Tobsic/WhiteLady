@@ -14,3 +14,21 @@
 	color: white;
 }
 
+.item .item-image {
+	position: relative;
+	width: 100%;
+	text-align: left;
+}
+
+.item-complex .item-content, .item-radio .item-content {
+	padding: 0;
+}
+
+p {
+	position: absolute;
+	top: 200px;
+	left: 0;
+	width: 100%;
+	background-color: white;
+}
+
