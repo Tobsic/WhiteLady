@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 24, 2015 at 10:41 PM
+-- Generation Time: Sep 25, 2015 at 10:38 AM
 -- Server version: 5.5.44-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.12
 
@@ -72,26 +72,29 @@ INSERT INTO `Gps` (`gps_id`, `gps_long`, `gps_lat`) VALUES
 
 CREATE TABLE IF NOT EXISTS `Location` (
   `location_id` int(6) NOT NULL,
-  `location_name` varchar(255) NOT NULL COMMENT 'Name of location'
+  `location_name` varchar(255) NOT NULL COMMENT 'Name of location',
+  `location_url` varchar(255) DEFAULT NULL,
+  `location_banner_url` varchar(255) DEFAULT NULL,
+  `location_map_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Location`
 --
 
-INSERT INTO `Location` (`location_id`, `location_name`) VALUES
-(3, 'Spitzkoppe'),
-(4, 'Brandberg'),
-(5, 'Brandberg'),
-(6, 'TestLocation'),
-(7, 'Brandberg'),
-(8, 'Brandberg'),
-(9, 'Brandberg'),
-(10, 'Brandberg'),
-(11, 'Brandberg'),
-(12, 'Spitzkoppe'),
-(13, 'Spitzkoppe'),
-(14, 'Spitzkoppe');
+INSERT INTO `Location` (`location_id`, `location_name`, `location_url`, `location_banner_url`, `location_map_url`) VALUES
+(3, 'Spitzkoppe', NULL, NULL, NULL),
+(4, 'Brandberg', NULL, NULL, NULL),
+(5, 'Brandberg', NULL, NULL, NULL),
+(6, 'TestLocation', NULL, NULL, NULL),
+(7, 'Brandberg', NULL, NULL, NULL),
+(8, 'Brandberg', NULL, NULL, NULL),
+(9, 'Brandberg', NULL, NULL, NULL),
+(10, 'Brandberg', NULL, NULL, NULL),
+(11, 'Brandberg', NULL, NULL, NULL),
+(12, 'Spitzkoppe', NULL, NULL, NULL),
+(13, 'Spitzkoppe', NULL, NULL, NULL),
+(14, 'Spitzkoppe', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -125,7 +128,6 @@ CREATE TABLE IF NOT EXISTS `Poi` (
   `poi_id` int(6) NOT NULL,
   `location_id` int(6) NOT NULL,
   `gps_id` int(6) NOT NULL,
-  `poi_type` varchar(255) NOT NULL,
   `poi_name` varchar(255) NOT NULL,
   `poi_description` varchar(1000) DEFAULT NULL,
   `orientation` double(3,2) DEFAULT NULL,
@@ -136,13 +138,13 @@ CREATE TABLE IF NOT EXISTS `Poi` (
 -- Dumping data for table `Poi`
 --
 
-INSERT INTO `Poi` (`poi_id`, `location_id`, `gps_id`, `poi_type`, `poi_name`, `poi_description`, `orientation`, `autoPlayMedia`) VALUES
-(1, 3, 2, 'Text', 'TestPoi', 'Here is a test poi', NULL, 0),
-(6, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0),
-(7, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0),
-(8, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0),
-(9, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0),
-(10, 3, 2, 'Text', 'TestPoi2', 'Description', NULL, 0);
+INSERT INTO `Poi` (`poi_id`, `location_id`, `gps_id`, `poi_name`, `poi_description`, `orientation`, `autoPlayMedia`) VALUES
+(1, 3, 2, 'TestPoi', 'Here is a test poi', NULL, 0),
+(6, 3, 2, 'TestPoi2', 'Description', NULL, 0),
+(7, 3, 2, 'TestPoi2', 'Description', NULL, 0),
+(8, 3, 2, 'TestPoi2', 'Description', NULL, 0),
+(9, 3, 2, 'TestPoi2', 'Description', NULL, 0),
+(10, 3, 2, 'TestPoi2', 'Description', NULL, 0);
 
 --
 -- Indexes for dumped tables
