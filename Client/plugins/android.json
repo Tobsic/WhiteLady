@@ -36,6 +36,7 @@
         }
     },
     "installed_plugins": {
+
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.ionicframework.myapp770763"
         },

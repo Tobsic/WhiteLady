@@ -5,11 +5,11 @@
 	</ion-nav-title>
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="location in locations" href="#/app/locations/{{location.location_name}}">
-      	<div class="item item-image">
-      		<img src="{{location.location_banner_url}}" alt="Background picture">
-        	<div class="title"><p>{{location.location_name}}</p></div>
-      	</div>
+      <ion-item ng-repeat="location in locations" class="padding-4">
+        <a href="#/app/locations/{{location.location_name}}" class="blocklink">
+      	  <img class="item-image backpics" src="{{location.location_banner_url}}" alt="Background picture">
+          <div class="title"><p>{{location.location_name}}</p></div>
+        </a>
       </ion-item>
     </ion-list>
   </ion-content>

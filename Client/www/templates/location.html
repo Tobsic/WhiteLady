@@ -1,5 +1,7 @@
-<ion-view view-title="{{locations.title}}">
-  <ion-content>
-    <h1>Location</h1>
-  </ion-content>
+<ion-view view-title="{{locID}}">
+	<div id="map" style="background: url({{map}}) no-repeat center center fixed;">
+		<a href="#/app/search" id="marker" style="left:{{mappedX}}%; top: {{mappedY}}%;">
+     	<i class="ion-android-pin marker-icon"></i>
+    </a>
+  </div>
 </ion-view>
