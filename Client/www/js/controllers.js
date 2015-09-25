@@ -19,6 +19,15 @@ angular.module('starter.controllers', [])
   $scope.locations = sharedProperties.getLocation();
   $scope.locID = $stateParams.locationId;
   $scope.map = 'img/locations/1/map.png';
+
+  calculatePoiMarker(14.612571, -21.075324, 14.673923, -21.155676, 14.66803056, -21.10257222);
+  //calculatePoiMarker(14.612571, -21.075324, 14.673923, -21.155676, 14.612571, -21.075324);
+
+  function calculatePoiMarker(upperLeftCornerLo, upperLeftCornerLa, bottomRightCornerLo, bottomRightCornerLa, PoiLo, PoiLa) {
+    $scope.mappedX = ((PoiLo - upperLeftCornerLo) / (bottomRightCornerLo - upperLeftCornerLo)) * 100;
+    $scope.mappedY = ((PoiLa - upperLeftCornerLa) / (bottomRightCornerLa - upperLeftCornerLa)) * 100;
+  }
+
 })
 
 .service('sharedProperties', function() {
