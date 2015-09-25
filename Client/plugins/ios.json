@@ -13,10 +13,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"MapKit\"><param name=\"ios-package\" value=\"MapKitView\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
                             "count": 1
                         },
@@ -33,10 +29,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"GoogleMaps\"><param name=\"ios-package\" value=\"GoogleMaps\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"External\"><param name=\"ios-package\" value=\"External\" /></feature>",
                             "count": 1
                         },
@@ -49,12 +41,6 @@
             },
             "framework": {
                 "parents": {
-                    "MapKit.framework": [
-                        {
-                            "xml": false,
-                            "count": 1
-                        }
-                    ],
                     "CoreGraphics.framework": [
                         {
                             "xml": false,
@@ -137,12 +123,6 @@
             },
             "*-Info.plist": {
                 "parents": {
-                    "Google Maps API Key": [
-                        {
-                            "xml": "<string>AIzaSyBXLeJOC29r8GsMaiYUb8IvbksMk4kyktk</string>",
-                            "count": 1
-                        }
-                    ],
                     "NSLocationWhenInUseUsageDescription": [
                         {
                             "xml": "<string>Show your location on the map</string>",
@@ -180,17 +160,10 @@
         },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.ionicframework.myapp770763"
-        },
-        "plugin.google.maps": {
-            "API_KEY_FOR_IOS": "AIzaSyBXLeJOC29r8GsMaiYUb8IvbksMk4kyktk",
-            "PACKAGE_NAME": "com.ionicframework.myapp770763"
         }
     },
     "dependent_plugins": {
         "plugin.http.request": {
-            "PACKAGE_NAME": "com.ionicframework.myapp770763"
-        },
-        "com.googlemaps.ios": {
             "PACKAGE_NAME": "com.ionicframework.myapp770763"
         }
     }

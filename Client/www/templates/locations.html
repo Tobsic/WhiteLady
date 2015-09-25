@@ -6,10 +6,9 @@
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="location in locations" href="#/app/locations/{{location.title}}">
-      	<div class="item item-image">
-      		<img src="{{location.pic}}" alt="Background picture">
+      		<img class="item item-image backpics" src="{{location.backpic}}" alt="Background picture">
         	<div class="title"><p>{{location.title}}</p></div>
-      	</div>
+    
       </ion-item>
     </ion-list>
   </ion-content>
