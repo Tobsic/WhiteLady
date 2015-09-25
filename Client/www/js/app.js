@@ -68,7 +68,14 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         controller: 'LocationCtrl'
       }
     }
+  })
+
+  // POI View Routes
+  .state('app.poi_bushphone', {
+    url: 'templates/poi_bushphone.html',
+    controller: 'POIBusphoneCtrl'
   });
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/locations');
 });

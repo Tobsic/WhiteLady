@@ -1,5 +1,9 @@
 angular.module('starter.controllers', [])
 
+
+
+/* CONTROLLERS */
+
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
@@ -22,6 +26,13 @@ angular.module('starter.controllers', [])
   //console.log($scope.locations);
 })
 
+// PoI: Bushphone Controller.
+.controller('POIBusphoneCtrl', function($scope, $stateParams){
+
+})
+
+
+/* SERVICES */
 .service('sharedProperties', function() {
   var locations = [
     { title: 'Rabbitwhole', id: 1, pic: '/img/brandberg640x175.jpg'},
