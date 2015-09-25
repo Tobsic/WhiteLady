@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>brandberg-rockArt</name>
+		<description><![CDATA[]]></description>
+		<Folder>
+			<name>brandberg1</name>
+			<Placemark>
+				<name>river bed</name>
+				<description><![CDATA[no: 1<br>latitude (sexadezimal): S21°6'9.26"<br>longitude (sexadecimal): E14°40'4.91"<br>latitude (decimal): -2110257222<br>longitude (decimal): 1466803056]]></description>
+				<styleUrl>#icon-962-DB4436</styleUrl>
+				<ExtendedData>
+					<Data name='no'>
+						<value>1.0</value>
+					</Data>
+					<Data name='latitude (sexadezimal)'>
+						<value>S21°6'9.26"</value>
+					</Data>
+					<Data name='longitude (sexadecimal)'>
+						<value>E14°40'4.91"</value>
+					</Data>
+					<Data name='latitude (decimal)'>
+						<value>-2.110257222E9</value>
+					</Data>
+					<Data name='longitude (decimal)'>
+						<value>1.466803056E9</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>14.668030555555555,-21.102572222222225,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>bush phone</name>
+				<description><![CDATA[no: 2<br>latitude (sexadezimal): S21°6'23.34"<br>longitude (sexadecimal): E14°39'53.29"<br>latitude (decimal): -2110648333<br>longitude (decimal): 1466480278]]></description>
+				<styleUrl>#icon-962-DB4436</styleUrl>
+				<ExtendedData>
+					<Data name='no'>
+						<value>2.0</value>
+					</Data>
+					<Data name='latitude (sexadezimal)'>
+						<value>S21°6'23.34"</value>
+					</Data>
+					<Data name='longitude (sexadecimal)'>
+						<value>E14°39'53.29"</value>
+					</Data>
+					<Data name='latitude (decimal)'>
+						<value>-2.110648333E9</value>
+					</Data>
+					<Data name='longitude (decimal)'>
+						<value>1.466480278E9</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>14.664802777777778,-21.106483333333333,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>sounding stone</name>
+				<description><![CDATA[no: 3<br>latitude (sexadezimal): S21°6'29.28"<br>longitude (sexadecimal): E14°39'49.84"<br>latitude (decimal): -2110813311<br>longitude (decimal): 1466384321]]></description>
+				<styleUrl>#icon-962-DB4436</styleUrl>
+				<ExtendedData>
+					<Data name='no'>
+						<value>3.0</value>
+					</Data>
+					<Data name='latitude (sexadezimal)'>
+						<value>S21°6'29.28"</value>
+					</Data>
+					<Data name='longitude (sexadecimal)'>
+						<value>E14°39'49.84"</value>
+					</Data>
+					<Data name='latitude (decimal)'>
+						<value>-2.110813311E9</value>
+					</Data>
+					<Data name='longitude (decimal)'>
+						<value>1.466384321E9</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>14.663844444444445,-21.108133333333335,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>white lady</name>
+				<description><![CDATA[no: 4<br>latitude (sexadezimal): S21°6'38.31"<br>longitude (sexadecimal): E14°39'45.86"<br>latitude (decimal): -2111064033<br>longitude (decimal): 1466273814]]></description>
+				<styleUrl>#icon-962-DB4436</styleUrl>
+				<ExtendedData>
+					<Data name='no'>
+						<value>4.0</value>
+					</Data>
+					<Data name='latitude (sexadezimal)'>
+						<value>S21°6'38.31"</value>
+					</Data>
+					<Data name='longitude (sexadecimal)'>
+						<value>E14°39'45.86"</value>
+					</Data>
+					<Data name='latitude (decimal)'>
+						<value>-2.111064033E9</value>
+					</Data>
+					<Data name='longitude (decimal)'>
+						<value>1.466273814E9</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>14.662738888888889,-21.110641666666673,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>giraffe site</name>
+				<description><![CDATA[no: 5<br>latitude (sexadezimal): S21°6'41.58"<br>longitude (sexadecimal): E14°39'33.24"<br>latitude (decimal): -2111155<br>longitude (decimal): 1465923333]]></description>
+				<styleUrl>#icon-962-DB4436</styleUrl>
+				<ExtendedData>
+					<Data name='no'>
+						<value>5.0</value>
+					</Data>
+					<Data name='latitude (sexadezimal)'>
+						<value>S21°6'41.58"</value>
+					</Data>
+					<Data name='longitude (sexadecimal)'>
+						<value>E14°39'33.24"</value>
+					</Data>
+					<Data name='latitude (decimal)'>
+						<value>-2111155.0</value>
+					</Data>
+					<Data name='longitude (decimal)'>
+						<value>1.465923333E9</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>14.659233333333331,-21.11155,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>ostrich site</name>
+				<description><![CDATA[no: <br>latitude (sexadezimal): S21°6'46.35"<br>longitude (sexadecimal): E14°39'33.24"<br>latitude (decimal): -21112875<br>longitude (decimal): 1465923333]]></description>
+				<styleUrl>#icon-962-DB4436</styleUrl>
+				<ExtendedData>
+					<Data name='no'>
+						<value></value>
+					</Data>
+					<Data name='latitude (sexadezimal)'>
+						<value>S21°6'46.35"</value>
+					</Data>
+					<Data name='longitude (sexadecimal)'>
+						<value>E14°39'33.24"</value>
+					</Data>
+					<Data name='latitude (decimal)'>
+						<value>-2.1112875E7</value>
+					</Data>
+					<Data name='longitude (decimal)'>
+						<value>1.465923333E9</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>14.659233333333331,-21.112875000000003,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>dancing bushmen</name>
+				<description><![CDATA[no: <br>latitude (sexadezimal): S21°6'38.33"<br>longitude (sexadecimal): E14°39'40.73"<br>latitude (decimal): -2111064722<br>longitude (decimal): 1466131389]]></description>
+				<styleUrl>#icon-962-DB4436</styleUrl>
+				<ExtendedData>
+					<Data name='no'>
+						<value></value>
+					</Data>
+					<Data name='latitude (sexadezimal)'>
+						<value>S21°6'38.33"</value>
+					</Data>
+					<Data name='longitude (sexadecimal)'>
+						<value>E14°39'40.73"</value>
+					</Data>
+					<Data name='latitude (decimal)'>
+						<value>-2.111064722E9</value>
+					</Data>
+					<Data name='longitude (decimal)'>
+						<value>1.466131389E9</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>14.66131388888889,-21.110647222222223,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>alternative sounding stone</name>
+				<description><![CDATA[no: <br>latitude (sexadezimal): S21°6'5.93"<br>longitude (sexadecimal): E14°40'11.55"<br>latitude (decimal): -2110164722<br>longitude (decimal): 14669875]]></description>
+				<styleUrl>#icon-962-DB4436</styleUrl>
+				<ExtendedData>
+					<Data name='no'>
+						<value></value>
+					</Data>
+					<Data name='latitude (sexadezimal)'>
+						<value>S21°6'5.93"</value>
+					</Data>
+					<Data name='longitude (sexadecimal)'>
+						<value>E14°40'11.55"</value>
+					</Data>
+					<Data name='latitude (decimal)'>
+						<value>-2.110164722E9</value>
+					</Data>
+					<Data name='longitude (decimal)'>
+						<value>1.4669875E7</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>14.669875,-21.101647222222223,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>route1</name>
+				<description><![CDATA[no: <br>latitude (sexadezimal): <br>longitude (sexadecimal): <br>latitude (decimal): <br>longitude (decimal): ]]></description>
+				<styleUrl>#line-DB4436-6</styleUrl>
+				<ExtendedData>
+					<Data name='no'>
+						<value></value>
+					</Data>
+					<Data name='latitude (sexadezimal)'>
+						<value></value>
+					</Data>
+					<Data name='longitude (sexadecimal)'>
+						<value></value>
+					</Data>
+					<Data name='latitude (decimal)'>
+						<value></value>
+					</Data>
+					<Data name='longitude (decimal)'>
+						<value></value>
+					</Data>
+				</ExtendedData>
+				<LineString>
+					<tessellate>1</tessellate>
+					<coordinates>14.669875,-21.1016472,0.0 14.6680306,-21.1025722,0.0 14.664802800000002,-21.1064833,0.0 14.6638444,-21.1081333,0.0 14.6627389,-21.1106417,0.0 14.661313899999998,-21.1106472,0.0 14.659233299999999,-21.11155,0.0 14.659233299999999,-21.112875,0.0</coordinates>
+				</LineString>
+			</Placemark>
+		</Folder>
+		<Style id='icon-962-DB4436'>
+			<IconStyle>
+				<color>ff3644DB</color>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/962-wht-diamond-blank.png</href>
+				</Icon>
+			</IconStyle>
+		</Style>
+		<Style id='line-DB4436-6-normal'>
+			<LineStyle>
+				<color>ff3644DB</color>
+				<width>6</width>
+			</LineStyle>
+		</Style>
+		<Style id='line-DB4436-6-highlight'>
+			<LineStyle>
+				<color>ff3644DB</color>
+				<width>9.0</width>
+			</LineStyle>
+		</Style>
+		<StyleMap id='line-DB4436-6'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#line-DB4436-6-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#line-DB4436-6-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+	</Document>
+</kml>
