@@ -54,9 +54,9 @@ a.item-content {
 	padding-top: 5px;
 }
 
-a[href]:hover {
+/*a:link {
 	color: #cf3435;
-}
+}*/
 
 .map {
 	width: 100%; 
