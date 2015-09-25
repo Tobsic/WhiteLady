@@ -18,9 +18,7 @@
         }
     },
     "installed_plugins": {
-        "com.googlemaps.ios": {
-            "PACKAGE_NAME": "com.ionicframework.myapp770763"
-        },
+
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.ionicframework.myapp770763"
         }

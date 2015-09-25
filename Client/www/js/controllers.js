@@ -15,15 +15,14 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LocationsCtrl', function($scope, sharedProperties) {
-  $scope.locations = sharedProperties.getProperty();
+  $scope.locations = sharedProperties.getLocation();
   //console.log($scope.locations);
 })
 
 .controller('LocationCtrl', function($scope, sharedProperties, $stateParams) {
-  $scope.locations = sharedProperties.getProperty();
+  $scope.locations = sharedProperties.getLocation();
   $scope.locID = $stateParams.locationId;
-  //console.log($stateParams.locationId);
-  //console.log($scope.locations);
+  $scope.map = 'img/locations/1/map.png';
 })
 
 // PoI: Bushphone Controller.
@@ -35,17 +34,17 @@ angular.module('starter.controllers', [])
 /* SERVICES */
 .service('sharedProperties', function() {
   var locations = [
-    { title: 'Rabbitwhole', id: 1, pic: '/img/brandberg640x175.jpg'},
-    { title: 'Spitzkoppe', id: 2, pic: '/img/brandberg640x175.jpg'},
-    { title: 'Brandberg', id: 3, pic: '/img/brandberg640x175.jpg'},
-    { title: 'Download new content', id: 4, pic: '/img/brandberg640x175.jpg'}
+    { title: 'Rabbitwhole', id: 1, backpic: 'img/brandberg640x175.jpg'},
+    { title: 'Spitzkoppe', id: 2, backpic: 'img/brandberg640x175.jpg'},
+    { title: 'Brandberg', id: 3, backpic: 'img/brandberg640x175.jpg'},
+    { title: 'Download new content', id: 4, backpic: 'img/brandberg640x175.jpg'}
   ];
 
   return {
-    getProperty: function() {
+    getLocation: function() {
       return locations;
     },
-    setProperty: function(locs) {
+    setLocation: function(locs) {
       locations = locs;
     }
   };

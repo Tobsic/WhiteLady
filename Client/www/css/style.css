@@ -14,18 +14,19 @@
 	color: white;
 }
 
-.item .item-image {
+.backpics {
 	position: relative;
 	width: 100%;
 	text-align: left;
 	border-radius: 5px;
+	z-index: -1;
 }
 
 .item-complex .item-content, .item-radio .item-content {
 	padding: 2px;
 }
 
-p {
+.title p {
 	position: absolute;
 	bottom: 5px;
 	background-color: white;	
@@ -55,5 +56,12 @@ a.item-content {
 
 a[href]:hover {
 	color: #cf3435;
+}
+
+.map {
+	width: 100%; 
+	height: 100%;
+	background-size: cover; 
+	-moz-background-size: cover;
 }
 
