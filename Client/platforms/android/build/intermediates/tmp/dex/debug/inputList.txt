@@ -1,2 +1,0 @@
-/home/petscho/WhiteLady/Client/platforms/android/build/intermediates/classes/debug
-/home/petscho/WhiteLady/Client/platforms/android/build/intermediates/pre-dexed/debug/classes-59afdfcaf5ddf7e6e816005be83f76e2b88df9f3.jar
