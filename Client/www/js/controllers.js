@@ -15,16 +15,19 @@ angular.module('starter.controllers', [])
   //console.log($scope.locations);
 })
 
-.controller('LocationCtrl', function($scope, sharedProperties) {
+.controller('LocationCtrl', function($scope, sharedProperties, $stateParams) {
   $scope.locations = sharedProperties.getProperty();
+  $scope.locID = $stateParams.locationId;
+  //console.log($stateParams.locationId);
+  //console.log($scope.locations);
 })
 
 .service('sharedProperties', function() {
   var locations = [
-    { title: 'Rabbitwhole', id: 1, pic: '/img/desert.png'},
-    { title: 'Spitzkoppe', id: 2, pic: '/img/desert.png'},
-    { title: 'Brandberg', id: 3, pic: '/img/desert.png'},
-    { title: 'Download new content', id: 4, pic: '/img/desert.png'}
+    { title: 'Rabbitwhole', id: 1, pic: '/img/brandberg640x175.jpg'},
+    { title: 'Spitzkoppe', id: 2, pic: '/img/brandberg640x175.jpg'},
+    { title: 'Brandberg', id: 3, pic: '/img/brandberg640x175.jpg'},
+    { title: 'Download new content', id: 4, pic: '/img/brandberg640x175.jpg'}
   ];
 
   return {
