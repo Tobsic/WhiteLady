@@ -1,5 +1,5 @@
 <?php
-$url = 'http://localhost/ss2015/api/v1/api.php/Gps/3';
+$url = 'http://localhost/ss2015/api/v1/api.php/Poi/3';
 $data = array('gps_long' => 22.22,
               'gps_lat' => 56.78,
               'username' => 'TestUser',

@@ -1,9 +1,17 @@
 <?php
-$url = 'http://localhost/ss2015/api/v1/api.php/Gps';
-$data = array('gps_long' => 12.34,
+$url = 'http://localhost/ss2015/api/v1/api.php/Poi';
+/*$data = array('gps_long' => 12.34,
               'gps_lat' => 56.78,
               'username' => 'TestUser',
-              'password' => 'TestPassword');
+              'password' => 'TestPassword');*/
+$data = array( 'gps_id' => 2,
+                'location_id' => 3,
+                  'poi_name' => "Test",
+                  'poi_description' => "poi_description",
+                  'poi_orientation' => "poi_orientation",
+                  'poi_autoPlayMedia' => false,
+                  'username' => "TestUser",
+                  'password' => "TestPassword");
               /*
               $data = array('acl_password' => 'Koppe123',
                             'username' => 'TestUser',
@@ -19,4 +27,4 @@ $options = array(
 $context  = stream_context_create($options);
 $result = file_get_contents($url, false, $context);
 echo("GPS-adding one, new row:");
-echo($result); ?>
+var_dump($result); ?>

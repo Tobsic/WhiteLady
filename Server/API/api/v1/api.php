@@ -579,12 +579,14 @@ class REST_CRUD_API {
 		return $object;
 	}
 
+	//own
 	protected function hashPassword($password){
 			return password_hash($password, PASSWORD_DEFAULT);
 	}
 
+	//own
   protected function checkLogin($db, $username, $password, $CRUDtype, $table, $key){
-    // TODO: do the checking, password hashing,
+
 		$sql = "SELECT `location_id`, `acl_password`,`acl_isAdmin`  FROM `Acl` WHERE `acl_username` = '".$username."'";
 
 		$result = $db->query($sql);
@@ -592,23 +594,24 @@ class REST_CRUD_API {
 		  // output data of each row
 		  while($row = $result->fetch_assoc()) {
 					$success = password_verify($password, $row["acl_password"]);
+					$locId = $row["location_id"];
 					if($success === true){
 						if($row["acl_isAdmin"] === "1"){
-							return true;
+							return array("success" => true, "location_id" => $locId);
 						}
 						if($CRUDtype === "get"){
-							return true;
+							return array("success" => true, "location_id" => $locId);
 						}
 
 						//creating records is fine, as long it is noch POI
 						if($CRUDtype === "create"){
 							if($table[0] === "Poi"){
 								if($row["location_id"] === $key[0]){
-									return true;
+										return array("success" => true, "location_id" => $locId);
 								}
-								return false;
+									return array("success" => false, "location_id" => $locId);
 							} else {
-								return true;
+								return array("success" => true, "location_id" => $locId);
 							}
 						}
 
@@ -619,33 +622,33 @@ class REST_CRUD_API {
 						  // output data of each row
 						  while($inner_row = $inner_result->fetch_assoc()) {
 								if($inner_row["location_id"] === $row["location_id"])
-									return true;
+									return array("success" => true, "location_id" => $row["location_id"]);
 							}
 						}
-						return false;
+						return array("success" => true, "location_id" => $locId);
+					}
+		  }
+		}
+		return array("success" => false);
+  }
+
+	//own
+  protected function checkAdmin($db, $username, $password){
+  	$sql = "SELECT `acl_password`,`acl_isAdmin`  FROM `Acl` WHERE `acl_username` = '".$username."'";
+
+		$result = $db->query($sql);
+		if ($result->num_rows > 0) {
+		  // output data of each row
+		  while($row = $result->fetch_assoc()) {
+					$success = password_verify($password, $row["acl_password"]);
+
+					if($success === true){
+							return $row["acl_isAdmin"] == "1";
 					}
 		  }
 		}
     return false;
   }
-
-
-	  protected function checkAdmin($db, $username, $password){
-	  	$sql = "SELECT `acl_password`,`acl_isAdmin`  FROM `Acl` WHERE `acl_username` = '".$username."'";
-
-			$result = $db->query($sql);
-			if ($result->num_rows > 0) {
-			  // output data of each row
-			  while($row = $result->fetch_assoc()) {
-						$success = password_verify($password, $row["acl_password"]);
-
-						if($success === true){
-								return $row["acl_isAdmin"] == "1";
-						}
-			  }
-			}
-	    return false;
-	  }
 
 
 	protected function createObject($input,$table,$db) {
@@ -655,40 +658,51 @@ class REST_CRUD_API {
 		$values = implode(',',str_split(str_repeat('?', count($input))));
 		$params = array_merge(array_keys($input),array_values($input));
 		array_unshift($params, $table[0]);
-    $username = "";
+		//own
+		$username = "";
     $password = "";
 		$key = NULL;
+
     $count = count($params) - 1;
-    for($i = 1; $i < $count; $i++){
+
+		for($i = 0; $i < $count; $i++){
       $secondpos = $i + $count / 2;
-      if($params[$i] == 'username'){
+      if($params[$i] === 'username'){
           $username = $params[$secondpos];
-          unset($params[$i]);
-          unset($params[$secondpos]);
+					$usernamepos = $i;
           $keys = substr($keys,4);
           $values = substr($values,2);
       }
-      if($params[$i] == 'password'){
+
+      if($params[$i] === 'password'){
           $password = $params[$secondpos];
-          unset($params[$i]);
-          unset($params[$secondpos]);
+          $passwordpos = $i;
           $keys = substr($keys,4);
           $values = substr($values,2);
       }
-			if($params[$i] == 'acl_password'){
+			if($params[$i] === 'acl_password'){
 					$passwordToSave = $params[$secondpos];
 					$params[$secondpos] = $this->hashPassword($passwordToSave);
 			}
-			if($table[0] == "Poi"){
-				if($params[$i] == "location_id"){
+			if($table[0] === "Poi"){
+				if($params[$i] === "location_id"){
 					$key[0] =	$params[$secondpos];
 					$key[1] = $params[$i];
 				}
 			}
     }
-
-    $loginSuccess = $this->checkLogin($db, $username, $password, "create", $table, $key);
-
+		if(isset($username)){
+			$secondpos = ($usernamepos+($count)/2);
+			unset($params[$usernamepos]);
+			unset($params[$secondpos]);
+		}
+		if(isset($password)){
+			$secondpos = ($passwordpos+($count)/2);
+			unset($params[$passwordpos]);
+			unset($params[$secondpos]);
+		}
+	  $loginSuccess = $this->checkLogin($db, $username, $password, "create", $table, $key)["success"];
+		//
 
     if($loginSuccess === true){
   		$result = $this->query($db,'INSERT INTO "!" ("'.$keys.'") VALUES ('.$values.')',$params);
@@ -707,19 +721,21 @@ class REST_CRUD_API {
 		$params = array();
 		$sql = 'UPDATE "!" SET ';
 		$params[] = $table[0];
-
-    $username = $input["username"];
-    $password = $input["password"];
-    unset($input["username"]);
-    unset($input["password"]);
+		//own
+    $username = array_key_exists("username", $input) ? $input["username"] : NULL;
+		$password = array_key_exists("password", $input) ? $input["password"] : NULL;
+		if(!($username === NULL))
+			unset($input["username"]);
+		if(!($password === NULL))
+    	unset($input["password"]);
 
 		if($table[0] === "Acl"){
 			$nothashedPassword = $input["acl_password"];
 			$input["acl_password"] = $this->hashPassword($nothashedPassword);
 		}
 
-    $loginSuccess = $this->checkLogin($db, $username, $password, "update", $table, $key);
-
+    $loginSuccess = $this->checkLogin($db, $username, $password, "update", $table, $key)["success"];
+		//
 		if($loginSuccess === true){
   		foreach (array_keys($input) as $i=>$k) {
   			if ($i) $sql .= ',';
@@ -742,14 +758,16 @@ class REST_CRUD_API {
 
 	protected function deleteObject($key,$table,$db,$input) {
     $input = (array)$input;
+		//own
+		$username = array_key_exists("username", $input) ? $input["username"] : NULL;
+		$password = array_key_exists("password", $input) ? $input["password"] : NULL;
+		if(!($username === NULL))
+			unset($input["username"]);
+		if(!($password === NULL))
+    	unset($input["password"]);
 
-    $username = $input["username"];
-    $password = $input["password"];
-    unset($input["username"]);
-    unset($input["password"]);
-
-    $loginSuccess = $this->checkLogin($db, $username, $password, "delete", $table, $key);
-
+    $loginSuccess = $this->checkLogin($db, $username, $password, "delete", $table, $key)["success"];
+		//
     if($loginSuccess === true){
       $result = $this->query($db,'DELETE FROM "!" WHERE "!" = ?',array($table[0],$key[1],$key[0]));
   		return $this->affected_rows($db, $result);
@@ -864,11 +882,13 @@ class REST_CRUD_API {
 		echo '{';
 		$tables = $table;
 		$table = array_shift($tables);
+		//own
 		if($table === "Acl"){
 			$input = (array)$parameters["input"];
 			$db = $parameters["db"];
-			$username = $input["username"];
-			$password = $input["password"];
+
+			$username = array_key_exists("username", $input) ? $input["username"] : NULL;
+			$password = array_key_exists("password", $input) ? $input["password"] : NULL;
 
 			$isadmin = $this->checkAdmin($db,$username,$password);
 
@@ -880,16 +900,19 @@ class REST_CRUD_API {
 		} else {
 			$input = (array)$parameters["input"];
 			$db = $parameters["db"];
-			$username = $input["username"];
-			$password = $input["password"];
+
+			$username = array_key_exists("username", $input) ? $input["username"] : NULL;
+			$password = array_key_exists("password", $input) ? $input["password"] : NULL;
 			if(!($username === NULL) && !($password === NULL)){
 				$loggedIn = $this->checkLogin($db, $username, $password, "get", $table, NULL);
-				echo "\"loggedIn\":".($loggedIn === true ? 1 : 0).",";
+				echo "\"loggedIn\":".($loggedIn["success"] === true ? 1 : 0).",";
+				echo "\"location_id\":".$loggedIn["location_id"].",";
 			}
 			/*echo "\"message\":\"Missing rights to view the structure of this table\", \"errorCode\":-1}";
 			$this->endOutput($callback);
 			return;*/
 		}
+		//
 		// first table
 		$count = false;
 		echo '"'.$table.'":{';
@@ -1038,11 +1061,12 @@ class REST_CRUD_API {
 
 	protected function readCommand($parameters) {
 		extract($parameters);
+		//own
 		if($parameters["table"][0] === "Acl"){
 			$input = (array)$parameters["input"];
 			$db = $parameters["db"];
-			$username = $input["username"];
-			$password = $input["password"];
+			$username = array_key_exists("username", $input) ? $input["username"] : NULL;
+			$password = array_key_exists("password", $input) ? $input["password"] : NULL;
 
 			$isadmin = $this->checkAdmin($db,$username,$password);
 
@@ -1052,6 +1076,7 @@ class REST_CRUD_API {
 				return;
 			}
 		}
+		//own
 		if (!$object) $this->exitWith404('object');
 		$this->startOutput($callback);
 		echo json_encode($object);
@@ -1094,10 +1119,12 @@ class REST_CRUD_API {
 			ob_start();
 		}
 		$this->listCommand($parameters);
-    $tablename = $parameters['table'][0];
+		//own
+		$tablename = $parameters['table'][0];
 		if($tablename === "Acl"){
 			return;
 		}
+		//
 		if ($parameters['transform']) {
 			$content = ob_get_contents();
 			ob_end_clean();
