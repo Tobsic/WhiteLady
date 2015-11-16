@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.constants'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.routing', 'starter.services', 'starter.constants'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -21,61 +21,3 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.constants'])
     }
   });
 })
-
-.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
-
-    .state('app', {
-    url: '/app',
-    abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
-  })
-
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  })
-
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-
-  .state('app.locations', {
-    url: '/locations',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/locations.html',
-        controller: 'LocationsCtrl'
-      }
-    }
-  })
-
-  .state('app.location', {
-    url: '/locations/:locationId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/location.html',
-        controller: 'LocationCtrl'
-      }
-    }
-  })
-
-  // POI View Routes
-  .state('app.poi_bushphone', {
-    url: 'templates/poi_bushphone.html',
-    controller: 'POIBusphoneCtrl'
-  });
-
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/locations');
-});
