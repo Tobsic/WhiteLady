@@ -1,8 +1,8 @@
 <?php
 //Database
-$host = "localhost";
+$host = "pandaswelt.de";
 $user = "ss2015";
-$password = "pae2601";
+$password = "m9At?r77";
 $database = "ss2015";
 
 
