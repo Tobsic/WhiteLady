@@ -660,7 +660,7 @@ class REST_CRUD_API {
 		array_unshift($params, $table[0]);
 		//own
 		$username = "";
-    $password = "";
+    	$password = "";
 		$key = NULL;
 
     $count = count($params) - 1;
@@ -669,7 +669,7 @@ class REST_CRUD_API {
       $secondpos = $i + $count / 2;
       if($params[$i] === 'username'){
           $username = $params[$secondpos];
-					$usernamepos = $i;
+		  $usernamepos = $i;
           $keys = substr($keys,4);
           $values = substr($values,2);
       }
@@ -701,9 +701,8 @@ class REST_CRUD_API {
 			unset($params[$passwordpos]);
 			unset($params[$secondpos]);
 		}
-	  $loginSuccess = $this->checkLogin($db, $username, $password, "create", $table, $key)["success"];
-		//
-
+	  	$loginSuccessArray = $this->checkLogin($db, $username, $password, "create", $table, $key);
+		$loginSuccess = $loginSuccessArray["success"];
     if($loginSuccess === true){
   		$result = $this->query($db,'INSERT INTO "!" ("'.$keys.'") VALUES ('.$values.')',$params);
 
@@ -734,8 +733,9 @@ class REST_CRUD_API {
 			$input["acl_password"] = $this->hashPassword($nothashedPassword);
 		}
 
-    $loginSuccess = $this->checkLogin($db, $username, $password, "update", $table, $key)["success"];
-		//
+		$loginSuccessArray = $this->checkLogin($db, $username, $password, "update", $table, $key);
+		$loginSuccess = $loginSuccessArray["success"];
+
 		if($loginSuccess === true){
   		foreach (array_keys($input) as $i=>$k) {
   			if ($i) $sql .= ',';
@@ -766,7 +766,8 @@ class REST_CRUD_API {
 		if(!($password === NULL))
     	unset($input["password"]);
 
-    $loginSuccess = $this->checkLogin($db, $username, $password, "delete", $table, $key)["success"];
+		$loginSuccessArray = $this->checkLogin($db, $username, $password, "delete", $table, $key);
+		$loginSuccess = $loginSuccessArray["success"];
 		//
     if($loginSuccess === true){
       $result = $this->query($db,'DELETE FROM "!" WHERE "!" = ?',array($table[0],$key[1],$key[0]));
