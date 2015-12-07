@@ -1,17 +1,13 @@
 ﻿var app = angular.module('starter.services', [])
-app.service('sharedProperties', function(serverSettings, $http) {
-    var availableLocations = JSON.parse(window.localStorage['availableLocations'] || '{}');
-    var downloadedLocations = JSON.parse(window.localStorage['downloadedLocations'] || '{}');
-    //   { id: 1, pic: 'img/desert.png', title: 'Rabbitwhole'},
-    //   { id: 2, pic: 'img/desert.png', title: 'Spitzkoppe'},
-    //   { id: 3, pic: 'img/desert.png', title: 'Brandberg'},
-    //   { id: 4, pic: 'img/desert.png', title: 'Download new content'}
-    // ];
+app.service('sharedProperties', function (serverSettings, $http) {
+    var Locations = JSON.parse(window.localStorage['Locations'] || '{}');
+    var Pois = JSON.parse(window.localStorage['Pois'] || '{}');
+    var GpsPositions = JSON.parse(window.localStorage['GpsPositions'] || '{}');
+    var Media = JSON.parse(window.localStorage['Media'] || '{}');
+
     var transform = function (data, name) {
-        
         data = data.data[name];
         var res = {};
-        console.log(name + " - " + data);
         if (typeof data == 'undefined')
             return;
         var columns = data.columns;
@@ -24,96 +20,184 @@ app.service('sharedProperties', function(serverSettings, $http) {
         
         return res;
     };
-    var getDownloadedLocations = function() { return downloadedLocations };
-    var getAvailableLocations = function() { return availableLocations; };
-    var updateLocations = function() {
-        return $http.get(serverSettings.url + 'location').then(function (resp) {
-            availableLocations = transform(resp, 'Location');
-            window.localStorage['availableLocations'] = JSON.stringify(availableLocations);
-            return availableLocations;
-        });
+
+
+    //Location
+    var updateLocations = function () {
+        return downloadLocations();
     };
-    var downloadFile = function(url) {
-        console.log('should download file: ', url);
+
+    var getLocations = function () {
+        return Locations;
     };
-    var downloadMedia = function(poiId) {
-        return $http.get(serverSettings.url + 'Media?filter=poi_id,eq,' + poiId).then(function(resp) {
-            var pages = []
-            var data = transform(resp, 'media');
-            for(i in data) {
-                var media = data[i];
-                var type = media.media_type.split('/')[0];
-                if(!pages[media.media_pagenumber])
-                    pages[media.media_pagenumber] = {
-                        image: [],
-                        audio: [],
-                        video: []
-                    };
-                if(type == 'text')
-                    pages[media.media_pagenumber].description = media.media_content;
-                else if(type == 'image' || type == 'audio' || type == 'video') {
-                    var info = {
-                        url: media.media_content,
-                        loading: true
-                    };
-                    downloadFile(info);
-                    pages[media.media_pagenumber][type].push(info)
-                }
-            }
-            return pages;
-        });
-    };
-    var downloadGps = function(gpsId) {
-        return $http
-          .get(serverSettings.url + 'Gps?filter=gps_id,eq,' + gpsId)
-          .then(resp => transform(resp, 'gps'));
-    };
-    var downloadAdditionlaPoiInfos = function(poi) {
-        Promise.all([
-          downloadMedia(poi.poi_id).then(pages => poi.pages = pages),
-          downloadGps(poi.gps_id).then(gps => poi.gps = gps)
-        ]);
-    };
-    var downloadLocation = function(locationId) {
-       return $http({
+
+    var downloadLocations = function () {
+        return $http({
             method: 'GET',
-            url: serverSettings.url + 'Poi?filter=location_id,eq,' + locationId
+            url: serverSettings.url + 'Location'
+        }).then(function successCallback(response) {
+            Locations = transform(response, 'Location');
+            window.localStorage['Locations'] = JSON.stringify(Locations);
+            return Locations;
+        }, function errorCallback(response) {
+            console.log("Error:  " + response);
+        });
+    }
+
+    //Poi
+
+    var getPoisForLocation = function (locationId) {
+
+        var poiArr = {}
+        angular.forEach(Pois, function (value, key) {
+            if (value.location_id == locationId) {
+                poiArr[key] = value;
+            }
+                
+        })
+        //console.log(poiArr)
+
+        return poiArr;
+    };
+
+    var updatePois = function () {
+        return downloadPois();
+    };
+
+    var downloadPois = function () {
+        return $http({
+            method: 'GET',
+            url: serverSettings.url + 'Poi'
         }).then(function successCallback(response) {
             // this callback will be called asynchronously
             // when the response is available
-            downloadedLocations[locationId] = availableLocations[locationId];
-            var pois = transform(response, 'Poi');
 
-            downloadedLocations[locationId].pois = pois;
-            var promises = [];
-            for(poiId in pois) if(pois.hasOwnProperty(poiId))
-                promises.push(downloadAdditionlaPoiInfos(pois[poiId]));
-            return Promise
-              .all(promises)
-              .then(() => downloadedLocations[locationId]);
+            Pois = transform(response, 'Poi');
+            window.localStorage['Pois'] = JSON.stringify(Pois);
+            return Pois;
         }, function errorCallback(response) {
-            console.log("Error:  "+response);
+            console.log("Error:  " + response);
         });
-    };
-    var getPois = function(locationId) {
+    }
 
+    //GPS
+    var updateGpss = function () {
+        return downloadGpss();
     };
 
+    var downloadGpss = function () {
+        return $http({
+            method: 'GET',
+            url: serverSettings.url + 'Gps'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            GpsPositions = transform(response, 'Gps');
+            window.localStorage['GpsPositions'] = JSON.stringify(GpsPositions);
+            return GpsPositions;
+        }, function errorCallback(response) {
+            console.log("Error:  " + response);
+        });
+    }
+    
+    var getGpssForGpsId = function (gpsId) {
+        return GpsPositions[gpsId];
+    };
+
+    var getGpssForLocation = function (locationId) {
+        pois = getPoisForLocation(locationId);
+        gpsArr = {}
+        angular.forEach(pois, function (value, key) {
+            gpsArr[value.gps_id] = GpsPositions[value.gps_id];
+        })
+        return gpsArr;
+    };
+    
+    //Media
+    var updateMedia = function () {
+        return downloadMedia();
+    };
+
+    var downloadMedia = function () {
+        return $http({
+            method: 'GET',
+            url: serverSettings.url + 'Media'
+        }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            Media = transform(response, 'Media');
+            window.localStorage['Media'] = JSON.stringify(Media);
+            return Media;
+        }, function errorCallback(response) {
+            console.log("Error:  " + response);
+        });
+    }
+
+    var getMediaForPoi = function (poiId) {
+        var mediaArr = {}
+        angular.forEach(Media, function (value, key) {
+            
+            if (value.poi_id == poiId) {
+                mediaArr[key] = value
+            }
+        })
+        return mediaArr;
+    };
+
+    var getMediaForLocation = function (locationId) {
+        pois = getPoisForLocation(locationId);
+        var mediaArr = {}
+        angular.forEach(pois, function (value, key) {
+            medias = getMediaForPoi(key)
+            angular.forEach(medias, function (value, key) {
+                mediaArr[key] = value
+            })
+        })
+        
+        return mediaArr;
+    };
+
+
+    var downloadImage = function (url) {
+        ionic.Platform.ready(function () {
+            var fileTransfer = new FileTransfer();
+            var uri = encodeURI(url);
+            fileTransfer.download(
+    uri,
+    fileURL,
+    function (entry) {
+        console.log("download complete: " + entry.toURL());
+    },
+    function (error) {
+        console.log("download error source " + error.source);
+        console.log("download error target " + error.target);
+        console.log("upload error code" + error.code);
+    },
+    false,
+    {
+        headers: {
+            "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+        }
+    }
+);
+        });
+       
+    }
+    //return
     return {
-        getDownloadedLocations: getDownloadedLocations,
-        getAvailableLocations : getAvailableLocations,
+        //updates->downloads
         updateLocations: updateLocations,
-        downloadLocation: downloadLocation,
-        getPois: getPois
+        updatePois: updatePois,
+        updateGpss: updateGpss,
+        updateMedia: updateMedia,
+        downloadImage: downloadImage,
+
+        //Getter
+        getLocations: getLocations,
+        getPoisForLocation: getPoisForLocation,
+        getGpssForGpsId: getGpssForGpsId,
+        getGpssForLocation: getGpssForLocation,
+        getMediaForPoi: getMediaForPoi,
+        getMediaForLocation: getMediaForLocation,
     };
 })
-
-.service('pois', function() {
-    var pois = [];
-
-    return {
-        get: function() {
-            return pois;
-        }
-    };
-});

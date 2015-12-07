@@ -2,3 +2,6 @@
 Client/WhiteLady.jsproj
 Client/WhiteLady.sln
 Client/taco.json
+Client/.vs/
+Client/bld/
+Client/bin/

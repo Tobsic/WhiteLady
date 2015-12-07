@@ -13,6 +13,18 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
@@ -36,17 +48,27 @@
         }
     },
     "installed_plugins": {
-
         "com.ionic.keyboard": {
+            "PACKAGE_NAME": "com.ionicframework.myapp770763"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.ionicframework.myapp770763"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.ionicframework.myapp770763"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.ionicframework.myapp770763"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ionicframework.myapp770763"
+        },
+        "org.apache.cordova.file": {
             "PACKAGE_NAME": "com.ionicframework.myapp770763"
         },
         "org.apache.cordova.file-transfer": {
             "PACKAGE_NAME": "com.ionicframework.myapp770763"
         }
     },
-    "dependent_plugins": {
-        "org.apache.cordova.file": {
-            "PACKAGE_NAME": "com.ionicframework.myapp770763"
-        }
-    }
+    "dependent_plugins": {}
 }
