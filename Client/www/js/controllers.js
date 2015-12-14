@@ -4,23 +4,61 @@ angular.module('starter.controllers', [])
 
 /* CONTROLLERS */
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function ($scope, $ionicModal, $rootScope, downloader) {
     $scope.locations = {}
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
   // listen for the $ionicView.enter event:
   //$scope.$on('$ionicView.enter', function(e) {
-  //});
+    //});
+    $rootScope.downloadedImage = {};
+    $rootScope.functions = {}
+    $rootScope.functions.downloadImage = function (url) {
+        downloader.getImage(url).then(function (path) {
+            console.log('Success: ' + path);
+            $rootScope.downloadedImage[url] = path;
+            return path;
+        }, function (error) {
+            console.log('Failed: ',error);
+        }, function (update) {
+            console.log('Got notification: ',update);
+        });
+    }
+    $rootScope.functions.downloadMedia = function (MediaObject) {
+        switch(MediaObject.media_type) {
+            case "image/png":
+            case "image/jpg":
+                $rootScope.functions.downloadImage(MediaObject.media_content)
+                break;
+            //TODO: Other Media-Types
+            default:
+                break;
+        }
+    }
 })
 
-.controller('LocationsCtrl', function ($scope, sharedProperties) {
+.controller('LocationsCtrl', function ($scope, $rootScope, sharedProperties) {
     sharedProperties.updateLocations()
-        .then(() => $scope.locations = sharedProperties.getLocations());
+        .then(function () {
+            $scope.locations = sharedProperties.getLocations()
+            //Download banner & map for locations!
+            angular.forEach($scope.locations, function (value, key) {
+                $rootScope.functions.downloadImage(value.location_banner_url)
+                $rootScope.functions.downloadImage(value.location_map_url)
+            });
+        });
     sharedProperties.updatePois()
     sharedProperties.updateGpss()
-    sharedProperties.updateMedia()
-    sharedProperties.downloadImage("https://upload.wikimedia.org/wikipedia/commons/b/bb/Wolf_on_alert.jpg");
+
+    sharedProperties.updateMedia().then(function () {
+        $scope.media = sharedProperties.getMedia()
+        console.log($scope.media)
+        //TODO: Download media for all locations
+        angular.forEach($scope.media, function (value, key) {
+            $rootScope.functions.downloadMedia(value);
+        });
+    });
 })
 
 .controller('LocationCtrl', function($scope, sharedProperties, $stateParams) {

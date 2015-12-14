@@ -1,4 +1,4 @@
-﻿var app = angular.module('starter.services', [])
+﻿var app = angular.module('starter.services', ['ngCordova'])
 app.service('sharedProperties', function (serverSettings, $http) {
     var Locations = JSON.parse(window.localStorage['Locations'] || '{}');
     var Pois = JSON.parse(window.localStorage['Pois'] || '{}');
@@ -157,32 +157,10 @@ app.service('sharedProperties', function (serverSettings, $http) {
         return mediaArr;
     };
 
+    var getMedia = function () {
+        return Media;
+    };
 
-    var downloadImage = function (url) {
-        ionic.Platform.ready(function () {
-            var fileTransfer = new FileTransfer();
-            var uri = encodeURI(url);
-            fileTransfer.download(
-    uri,
-    fileURL,
-    function (entry) {
-        console.log("download complete: " + entry.toURL());
-    },
-    function (error) {
-        console.log("download error source " + error.source);
-        console.log("download error target " + error.target);
-        console.log("upload error code" + error.code);
-    },
-    false,
-    {
-        headers: {
-            "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-        }
-    }
-);
-        });
-       
-    }
     //return
     return {
         //updates->downloads
@@ -190,7 +168,6 @@ app.service('sharedProperties', function (serverSettings, $http) {
         updatePois: updatePois,
         updateGpss: updateGpss,
         updateMedia: updateMedia,
-        downloadImage: downloadImage,
 
         //Getter
         getLocations: getLocations,
@@ -199,5 +176,120 @@ app.service('sharedProperties', function (serverSettings, $http) {
         getGpssForLocation: getGpssForLocation,
         getMediaForPoi: getMediaForPoi,
         getMediaForLocation: getMediaForLocation,
+        getMedia: getMedia,
     };
+})
+
+app.service('downloader', function (serverSettings, $http, $ionicPlatform, $cordovaFile, $cordovaFileTransfer, $timeout, $rootScope, $q) {
+    var downloadedMedia = JSON.parse(window.localStorage['downloadedMedia'] || '{}');
+
+    var getHashedFileName = function (url) {
+        hashCode = function (s) {
+            return s.split("").reduce(function (a, b) { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0);
+        }
+        extension = function (s){
+            return (/[.]/.exec(s)) ? /[^.]+$/.exec(s) : undefined;
+        }
+
+        extension = "."+extension(url);
+
+        var hashedUrl = hashCode(url)+extension;
+        return hashedUrl;
+    }
+
+    var getPath = function () {
+        /*if (ionic.Platform.isAndroid()) {
+           // console.log('cordova.file.externalDataDirectory: ' + cordova.file.externalDataDirectory);
+            myFsRootDirectory1 = 'file:///storage/emulated/0/'; // path for tablet
+            myFsRootDirectory2 = 'file:///storage/sdcard0/'; // path for phone
+            fileTransferDir = cordova.file.externalDataDirectory;
+            if (fileTransferDir.indexOf(myFsRootDirectory1) === 0) {
+                fileDir = fileTransferDir.replace(myFsRootDirectory1, '');
+            }
+            if (fileTransferDir.indexOf(myFsRootDirectory2) === 0) {
+                fileDir = fileTransferDir.replace(myFsRootDirectory2, '');
+            }
+            //console.log('Android FILETRANSFERDIR: ' + fileTransferDir);
+            //console.log('Android FILEDIR: ' + fileDir);
+        }
+        if (ionic.Platform.isIOS()) {
+            //console.log('cordova.file.documentsDirectory: ' + cordova.file.documentsDirectory);
+            fileTransferDir = cordova.file.documentsDirectory;
+            fileDir = '';
+            //console.log('IOS FILETRANSFERDIR: ' + fileTransferDir);
+            //console.log('IOS FILEDIR: ' + fileDir);
+        }
+        return fileTransferDir;
+        */
+
+        //https://github.com/apache/cordova-plugin-file
+        return cordova.file.dataDirectory;
+    }
+
+    var addMedia = function(url, path, type, filename){
+        var entry = {
+            type: type,
+            url: url,
+            path: path,
+        };
+
+        downloadedMedia[filename] = entry;
+        window.localStorage['downloadedMedia'] = JSON.stringify(downloadedMedia);
+
+        return path;
+    }
+      
+    var downloadFile = function (url, filename, type) {
+        var deferred = $q.defer();
+
+        var path = getPath() + type + "/" + filename;
+        var trustHosts = true
+        var options = {};
+
+        $cordovaFileTransfer.download(url, path, options, trustHosts)
+            .then(function (result) {
+                //success
+                //console.log("Success");
+                var newpath = addMedia(url, path, type, filename)
+                return deferred.resolve(newpath);
+            }, function (err) {
+                // Error
+                return deferred.reject(err);
+            }, function (progress) {
+                $timeout(function () {
+                    deferred.notify(((progress.loaded / progress.total) * 100));
+                })
+            });
+        return deferred.promise;
+    }
+
+    //public methods:
+
+    var getImage = function (url) {
+        var deferred = $q.defer();
+
+        if (url == null || url == undefined) {
+            deferred.reject("No url / invalid url is given");
+        } else {
+            var fileName = getHashedFileName(url);
+            if (fileName in downloadedMedia) {
+                console.log('already found', url);
+                deferred.resolve(downloadedMedia[fileName].path);
+            } else {
+                console.log('not found -> start download', url);
+                downloadFile(url, fileName, 'images').then(function (path) {
+                    deferred.resolve(path);
+                }, function (error) {
+                    deferred.reject(error);
+                }, function (update) {
+                    deferred.notify(update);
+                });
+            }
+        }
+        return deferred.promise;
+    }
+
+    return {
+        getImage: getImage,
+    }
 })
