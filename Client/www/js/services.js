@@ -93,6 +93,7 @@ app.service('sharedProperties', function (serverSettings, $http) {
             // this callback will be called asynchronously
             // when the response is available
             GpsPositions = transform(response, 'Gps');
+
             window.localStorage['GpsPositions'] = JSON.stringify(GpsPositions);
             return GpsPositions;
         }, function errorCallback(response) {
@@ -265,7 +266,7 @@ app.service('downloader', function (serverSettings, $http, $ionicPlatform, $cord
 
     //public methods:
 
-    var getImage = function (url) {
+    var getMedia = function (url, type) {
         var deferred = $q.defer();
 
         if (url == null || url == undefined) {
@@ -277,7 +278,7 @@ app.service('downloader', function (serverSettings, $http, $ionicPlatform, $cord
                 deferred.resolve(downloadedMedia[fileName].path);
             } else {
                 console.log('not found -> start download', url);
-                downloadFile(url, fileName, 'images').then(function (path) {
+                downloadFile(url, fileName, type).then(function (path) {
                     deferred.resolve(path);
                 }, function (error) {
                     deferred.reject(error);
@@ -290,6 +291,6 @@ app.service('downloader', function (serverSettings, $http, $ionicPlatform, $cord
     }
 
     return {
-        getImage: getImage,
+        getMedia: getMedia,
     }
 })

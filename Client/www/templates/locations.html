@@ -7,7 +7,7 @@
     <ion-list>
       <ion-item ng-repeat="location in locations" class="padding-4">
         <a href="#/app/locations/{{location.location_id}}" class="blocklink">
-      	  <img class="item-image backpics" ng-src="{{downloadedImage['location.location_banner_url']}}" alt="Background picture">
+      	  <img class="item-image backpics" ng-src="{{downloadedFiles['images'][location.location_banner_url]}}" alt="Background picture">
           <div class="title"><p>{{location.location_name}}</p></div>
         </a>
       </ion-item>

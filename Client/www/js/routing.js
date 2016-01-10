@@ -47,6 +47,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
             }
         }
     })
+    .state('app.position', {
+        url: '/position/:locationId/:posId',
+        views: {
+            'menuContent': {
+                templateUrl: 'templates/position.html',
+                controller: 'PositionCtrl'
+            }
+        }
+    })
 
     // POI View Routes
     .state('app.poi_bushphone', {

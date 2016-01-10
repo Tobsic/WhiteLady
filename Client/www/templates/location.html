@@ -1,7 +1,13 @@
-<ion-view view-title="{{locID}}">
+<ion-view view-title="{{locations[locID].location_name}}">
+    <div id="map" data-tap-disabled="true"></div>
+    <!--
 	<div id="map" style="background: url({{map}}) no-repeat center center fixed;">
-		<a href="#/app/search" id="marker" style="left:{{mappedX}}%; top: {{mappedY}}%;">
-     	<i class="ion-android-pin marker-icon"></i>
+        <div ng-repeat="pos in gps">
+            <a href="#/position/{{locID}}/{{pos.id}}" class="marker" style="left:{{pos.calcedMarker.x}}%; top: {{pos.calcedMarker.y}}%;">
+            <i class="ion-android-pin marker-icon"></i>
+        </div>
+		
     </a>
   </div>
+        -->
 </ion-view>

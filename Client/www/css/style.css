@@ -60,18 +60,19 @@ a.item-content {
 
 #map {
 	width: 100%; 
-	height: 100%;
+	height: 94%;
+    top:40px;
 }
 
-#marker {
+.marker {
 	font-size: 200%;
 	position: absolute; 
 	padding: 0;
 }
 
-#marker:link {
+.marker:link {
 	color: #000;
 }
 
-/*.marker-icon { background-color: transparent;}
+/*.marker-icon { background-color: transparent;}*/
 
