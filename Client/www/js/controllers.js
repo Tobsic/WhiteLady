@@ -71,7 +71,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LocationCtrl', function ($scope, sharedProperties, $stateParams, $ionicLoading, $state) {
+.controller('LocationCtrl', function ($scope, sharedProperties, $stateParams, $ionicLoading, $state, $cordovaGeolocation, $rootScope) {
     $scope.locations = sharedProperties.getLocations();
     $scope.locID = $stateParams.locationId;
 
@@ -90,9 +90,9 @@ angular.module('starter.controllers', [])
     var map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: Number(location.location_lat), lng: Number(location.location_long) },
         zoom: Number(location.location_zoom),
+        mapTypeId: google.maps.MapTypeId.HYBRID,
         disableDefaultUI: true,
     });
-
 
     angular.forEach($scope.gps, function (gps, gps_id) {
         angular.forEach($scope.pois, function (poi, poi_id) {
@@ -102,28 +102,85 @@ angular.module('starter.controllers', [])
         });
     });
 
+    $scope.funcCenterMap = function () {
+        console.log("centerMap");
+        map.setCenter({ lat: Number(location.location_lat), lng: Number(location.location_long) });
+    }
+
+    $scope.funcCenterMe = function () {
+        console.log("centerMap", $scope.myPos);
+        map.setCenter($scope.myPos);
+    }
+
     console.log("GPS-Count:" + Object.keys($scope.gps).length, $scope.gps);
    // $scope.map = 'img/locations/1/map.png';
 
-    navigator.geolocation.getCurrentPosition(function (pos) {
-        console.log("MyPos:", pos)
 
-    });
+    var posOptions = { timeout: 10000, enableHighAccuracy: false };
+    $cordovaGeolocation
+      .getCurrentPosition(posOptions)
+      .then(function (position) {
+          gotNewPosition(position);
+      }, function (err) {
+          // error
+      });
 
+
+    var watchOptions = {
+        timeout: 3000,
+        enableHighAccuracy: false // may cause errors if true
+    };
+
+    var watch = $cordovaGeolocation.watchPosition(watchOptions);
+    watch.then(
+      null,
+      function (err) {
+          // error
+      },
+      function (position) {
+          gotNewPosition(position);
+      });
+
+    $rootScope.clearWatch = function () {
+        watch.clearWatch();
+    }
+    
+
+    var positionMarker;
+    function gotNewPosition(position) {
+        $scope.myPos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+
+        if (positionMarker != undefined) {
+            positionMarker.setMap(null);
+            positionMarker = null;
+        }
+        positionMarker = new google.maps.Marker({
+            map: map,
+            icon: 'img/marker.png',
+            position: $scope.myPos
+        });
+    };
     function addMarker(gps, poi, map) {
         var pos = { lat: Number(gps.gps_lat), lng: Number(gps.gps_long) }
         var label = poi.poi_name;
 
         var marker = new google.maps.Marker({
             position: pos,
+            title: label,
             label: label,
             map: map,
+
             gps: gps,
             poi, poi,
+
         });
         marker.addListener('click', function () {
             var poi = marker.poi;
-            $state.go('app.position', { locationId: poi.location_id, posId: poi.poi_id });
+  
+            $state.go('app.position', { locationId: $scope.locID, posId: poi.poi_id });
         });
     }
 
@@ -136,18 +193,56 @@ angular.module('starter.controllers', [])
 
 .controller('PositionCtrl', function($scope, sharedProperties, $stateParams) {
     $scope.locations = sharedProperties.getLocations();
-
     $scope.locID = $stateParams.locationId;
     $scope.posID = $stateParams.posId;
+    $scope.location = $scope.locations[$scope.locID];
 
     //downloading pois
     $scope.pois = sharedProperties.getPoisForLocation($scope.locID);
     $scope.gps = sharedProperties.getGpssForLocation($scope.locID);
     $scope.media = sharedProperties.getMediaForLocation($scope.locID);
 
-    console.log("Poi-Count:" + Object.keys($scope.pois).length, $scope.pois);
-    console.log("GPS-Count:" + Object.keys($scope.gps).length, $scope.gps);
-    console.log("Media-Count:" + Object.keys($scope.media).length, $scope.media);
+    $scope.local = {};
+    $scope.local.poi = $scope.pois[$scope.posID]
+
+    $scope.local.media = []
+    angular.forEach($scope.media, function (media, media_id) {
+        if (media.poi_id == $scope.posID) {
+            $scope.local.media[$scope.local.media.length] = media;
+        }
+    });
+    $scope.local.media.sort(function (m1, m2) { return m1.media_pagenumber - m2.media_pagenumber });
+    console.log($scope.media);
+
+    $scope.activeMedia = 0;
+    $scope.getActiveMedia = function () {
+        return $scope.local.media[$scope.activeMedia]
+    }
+
+    $scope.setActiveMedia = function (number) {
+        console.log(number)
+        $scope.activeMedia = number;
+    }
+
+    $scope.isMediaType = function (type) {
+
+        switch(type){
+            case "image":
+                return /image/.test($scope.getActiveMedia().media_type);
+                break;
+            case "video":
+                return /video/.test($scope.getActiveMedia().media_type);
+                break;
+            case "application":
+                return /application/.test($scope.getActiveMedia().media_type);
+                break;
+            case "text":
+                return /text/.test($scope.getActiveMedia().media_type);
+                break;
+
+        }
+    }
+
 })
 
 // PoI: Bushphone Controller.

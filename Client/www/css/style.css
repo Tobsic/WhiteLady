@@ -61,9 +61,26 @@ a.item-content {
 #map {
 	width: 100%; 
 	height: 94%;
-    top:40px;
+    top: 40px;
 }
-
+.centerMap{
+    height: 35px;
+    width: 50%;
+    background-color: aliceblue;
+    bottom: 0px;
+    z-index: 1000;
+    position: absolute;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 35px;
+    font-size: 20px;
+}
+.rightMapButton{
+    right: 0px;
+}
+.leftMapButton{
+    left: 0px;
+}
 .marker {
 	font-size: 200%;
 	position: absolute; 
@@ -73,6 +90,38 @@ a.item-content {
 .marker:link {
 	color: #000;
 }
-
+.content-frame div{
+    padding: 10px;
+}
+.content-frame div video{
+    width: 100%;
+}
+.content-frame div img{
+    width: 100%;
+}
+.content-frame div span{
+    width: 100%;
+}
+.media-subtitle{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 900;
+}
+.own-tab-holder{
+    padding: 0px;
+}
+.own-tab-holder .row{
+    padding: 0px;
+}
+.own-tab-holder .row .col {
+    border: 1px solid #DDD;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-bottom-width: 0px;
+    padding: 15px !important;
+    text-align: center;
+    line-height: 100%;
+    vertical-align: middle;
+}
 /*.marker-icon { background-color: transparent;}*/
 

@@ -1,5 +1,7 @@
 <ion-view view-title="{{locations[locID].location_name}}">
     <div id="map" data-tap-disabled="true"></div>
+    <div class="centerMap rightMapButton" ng-click="funcCenterMap()"><i class="ion-flag"></i> Center Map</div>
+    <div class="centerMap leftMapButton" ng-click="funcCenterMe()"><i class="ion-location"></i> Center Me</div>
     <!--
 	<div id="map" style="background: url({{map}}) no-repeat center center fixed;">
         <div ng-repeat="pos in gps">

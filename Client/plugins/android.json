@@ -68,6 +68,12 @@
         },
         "org.apache.cordova.file-transfer": {
             "PACKAGE_NAME": "com.ionicframework.myapp770763"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.ionicframework.myapp770763"
+        },
+        "cordova-plugin-file-opener2": {
+            "PACKAGE_NAME": "com.ionicframework.myapp770763"
         }
     },
     "dependent_plugins": {}

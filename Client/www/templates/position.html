@@ -1,5 +1,30 @@
-﻿<ion-view view-title="Search">
+﻿<ion-view view-title="{{local.poi.poi_name}}">
     <ion-content>
-        <h1>Position</h1>
+        <div class="list card">
+            <div class="item item-avatar">
+                <img ng-src="{{downloadedFiles['images'][location.location_banner_url]}}">
+                <h1>{{local.poi.poi_name}}</h1>
+            </div>
+            <div class="item item-text-wrap">
+                {{local.poi.poi_description}}
+            </div>
+        </div>
+        <div class="list card" ng-show="{{local.media.length > 0}}">
+            <div class="item item-text-wrap own-tab-holder" ng-show="{{local.media.length > 1}}">
+                <div class="row own-tab">
+                    <div class="col" ng-repeat="(key, mediaObject) in local.media" ng-click="setActiveMedia(key)" ng-class="{balanced: activeMedia == key }">Page {{mediaObject.media_pagenumber}}</div>
+                </div>
+            </div>
+            <div class="item item-text-wrap content-frame">
+                <div class="item item-text-wrap">
+                    <span ng-show="isMediaType('text')">{{getActiveMedia().media_content}}</span>
+                    <img ng-show="isMediaType('image')" ng-src="{{downloadedFiles['images'][getActiveMedia().media_content]}}">
+                    <video  ng-show="isMediaType('video')" ng-src="{{downloadedFiles['videos'][getActiveMedia().media_content]}}" type="{{getActiveMedia().media_type}}" controls loop autoplay />
+                </div>
+                <div class="item media-subtitle">
+                    {{getActiveMedia().media_name}}
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-view>
