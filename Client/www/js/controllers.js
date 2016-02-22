@@ -4,7 +4,7 @@ angular.module('starter.controllers', [])
 
 /* CONTROLLERS */
 
-.controller('AppCtrl', function ($scope, $ionicModal, $rootScope, downloader) {
+.controller('AppCtrl', function ($scope, $ionicModal, $rootScope, downloader, $cordovaFileOpener2) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -45,6 +45,27 @@ angular.module('starter.controllers', [])
                 break;
         }
     }
+
+    $rootScope.functions.openMediaExternal = function (url, type) {
+        if (url == undefined)
+            return;
+
+        url = url.replace("file://", "");
+
+        $cordovaFileOpener2.open(
+            url,
+            type
+          ).then(function () {
+              console.log("success opening",url,type)
+              // Success!
+          }, function (err) {
+              console.log("error opening", url, type, err)
+              // An error occurred. Show a message to the user
+          });
+    }
+
+     
+
 })
 
 .controller('LocationsCtrl', function ($scope, $rootScope, sharedProperties) {
@@ -71,7 +92,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LocationCtrl', function ($scope, sharedProperties, $stateParams, $ionicLoading, $state, $cordovaGeolocation, $rootScope) {
+.controller('LocationCtrl', function ($scope, sharedProperties, $stateParams, $ionicLoading, $state, $cordovaGeolocation, $rootScope, calculator) {
     $scope.locations = sharedProperties.getLocations();
     $scope.locID = $stateParams.locationId;
 
@@ -116,34 +137,58 @@ angular.module('starter.controllers', [])
    // $scope.map = 'img/locations/1/map.png';
 
 
-    var posOptions = { timeout: 10000, enableHighAccuracy: false };
-    $cordovaGeolocation
-      .getCurrentPosition(posOptions)
-      .then(function (position) {
-          gotNewPosition(position);
-      }, function (err) {
-          // error
-      });
+   
+
+    ionic.Platform.ready(function () {
+
+        var posOptions = { timeout: 10000, enableHighAccuracy: false };
+        $cordovaGeolocation
+           .getCurrentPosition(posOptions)
+           .then(function (position) {
+               console.log("position",position)
+               gotNewPosition(position);
+           }, function (err) {
+               console.log("position - error", err)
+               // error
+           });
 
 
-    var watchOptions = {
-        timeout: 3000,
-        enableHighAccuracy: false // may cause errors if true
-    };
+        var watchOptions = {
+            timeout: 5000,
+            enableHighAccuracy: true // may cause errors if true
+        };
 
-    var watch = $cordovaGeolocation.watchPosition(watchOptions);
-    watch.then(
-      null,
-      function (err) {
-          // error
-      },
-      function (position) {
-          gotNewPosition(position);
-      });
+        var setWatch = function (watchOptions) {
+            var watch = $cordovaGeolocation.watchPosition(watchOptions);
+            watch.then(
+              null,
+              function (err) {
+                  // error
+                  // alert(err);
+                  console.log("watch - error", err)
+                  $timeout(function () {
+                      watch.clearWatch();
+                      setWatch(watchOptions)
+                  }, 5000);
+              },
+              function (position) {
+                  //alert(position);
+                  console.log("watch", position)
+                  gotNewPosition(position);
+              });
+        }
+        
+        setWatch(watchOptions)
 
-    $rootScope.clearWatch = function () {
-        watch.clearWatch();
-    }
+
+        document.addEventListener("pause", function () {
+            console.log("pause");
+            watch.clearWatch();
+        }, false);
+
+    });
+
+    
     
 
     var positionMarker;
@@ -162,6 +207,24 @@ angular.module('starter.controllers', [])
             icon: 'img/marker.png',
             position: $scope.myPos
         });
+
+        angular.forEach($scope.pois, function (poi, poi_id) {
+            if (poi.poi_autoPlayMedia === "1") {
+                var gpsPoiPos = $scope.gps[poi.gps_id];
+                var lat1 = position.coords.latitude
+                var lon1 = position.coords.longitude
+
+                var lat2 = gpsPoiPos.gps_lat;
+                var lon2 = gpsPoiPos.gps_long;
+
+                var d = calculator.distanceBetweenPositions(lat1, lon1, lat2, lon2)
+                console.log(lat1, lon1, lat2, lon2, "distance:", d)
+                if (d < 10) {
+                    $state.go('app.position', { locationId: $scope.locID, posId: poi.poi_id });
+                }
+            }
+            
+        });       
     };
     function addMarker(gps, poi, map) {
         var pos = { lat: Number(gps.gps_lat), lng: Number(gps.gps_long) }
@@ -174,7 +237,7 @@ angular.module('starter.controllers', [])
             map: map,
 
             gps: gps,
-            poi, poi,
+            poi: poi,
 
         });
         marker.addListener('click', function () {

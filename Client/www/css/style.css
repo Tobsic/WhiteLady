@@ -123,5 +123,23 @@ a.item-content {
     line-height: 100%;
     vertical-align: middle;
 }
+.centerText{
+    text-align:center;
+}
+.noPadding{
+    padding-top: 1px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+.noPaddingLeft{
+    padding-left: 0px;
+}
+.noPaddingRight{
+    padding-right: 0px;
+}
+.border-top{
+    border-top: solid 1px #ddd;
+}
 /*.marker-icon { background-color: transparent;}*/
 

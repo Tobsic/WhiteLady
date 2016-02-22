@@ -21,7 +21,8 @@
     "cordova-plugin-splashscreen",
     "com.ionic.keyboard",
     "org.apache.cordova.file-transfer",
-    "cordova-plugin-file-transfer"
+    "cordova-plugin-file-transfer",
+    "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
     "android"

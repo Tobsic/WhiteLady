@@ -86,7 +86,7 @@
             "type": "registry",
             "id": "cordova-plugin-file-transfer"
         },
-        "is_top_level": true,
+        "is_top_level": false,
         "variables": {}
     },
     "cordova-plugin-file": {
@@ -94,7 +94,7 @@
             "type": "registry",
             "id": "cordova-plugin-file"
         },
-        "is_top_level": true,
+        "is_top_level": false,
         "variables": {}
     },
     "cordova-plugin-geolocation": {
@@ -107,11 +107,35 @@
     },
     "cordova-plugin-file-opener2": {
         "source": {
+            "type": "registry",
+            "id": "cordova-plugin-file-opener2"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-open": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-open"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.transistorsoft.cordova.background-geolocation": {
+        "source": {
             "type": "git",
-            "url": "https://github.com/pwlin/cordova-plugin-file-opener2.git",
+            "url": "https://github.com/transistorsoft/cordova-background-geolocation-lt.git",
             "subdir": "."
         },
         "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-dialogs": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-dialogs"
+        },
+        "is_top_level": false,
         "variables": {}
     }
 }
