@@ -22,7 +22,11 @@
     "com.ionic.keyboard",
     "org.apache.cordova.file-transfer",
     "cordova-plugin-file-transfer",
-    "cordova-plugin-geolocation"
+    "cordova-plugin-geolocation",
+    {
+      "locator": "https://github.com/katzer/cordova-plugin-local-notifications.git",
+      "id": "de.appplant.cordova.plugin.local-notification"
+    }
   ],
   "cordovaPlatforms": [
     "android"

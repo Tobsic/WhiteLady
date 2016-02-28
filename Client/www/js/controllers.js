@@ -92,7 +92,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('LocationCtrl', function ($scope, sharedProperties, $stateParams, $ionicLoading, $state, $cordovaGeolocation, $rootScope, calculator) {
+.controller('LocationCtrl', function ($scope, sharedProperties, $stateParams, $ionicLoading, $state, $cordovaGeolocation, $rootScope, calculator, $cordovaLocalNotification, $timeout, otherSettings) {
     $scope.locations = sharedProperties.getLocations();
     $scope.locID = $stateParams.locationId;
 
@@ -151,45 +151,48 @@ angular.module('starter.controllers', [])
                console.log("position - error", err)
                // error
            });
+    });
 
 
-        var watchOptions = {
-            timeout: 5000,
-            enableHighAccuracy: true // may cause errors if true
-        };
+    var watchOptions = {
+        timeout: 5000,
+        enableHighAccuracy: true // may cause errors if true
+    };
 
-        var setWatch = function (watchOptions) {
-            var watch = $cordovaGeolocation.watchPosition(watchOptions);
-            watch.then(
-              null,
-              function (err) {
-                  // error
-                  // alert(err);
-                  console.log("watch - error", err)
-                  $timeout(function () {
-                      watch.clearWatch();
-                      setWatch(watchOptions)
-                  }, 5000);
-              },
-              function (position) {
-                  //alert(position);
-                  console.log("watch", position)
-                  gotNewPosition(position);
-              });
-        }
-        
-        setWatch(watchOptions)
+    var setWatch = function (watchOptions) {
+        $scope.watch = $cordovaGeolocation.watchPosition(watchOptions);
+        $scope.watch.then(
+          null,
+          function (err) {
+              // error
+              // alert(err);
+              console.log("watch - error", err)
+              $timeout(function () {
+                  $scope.watch.clearWatch();
+                  setWatch(watchOptions)
+              }, 5000);
+          },
+          function (position) {
+              //alert(position);
+              //console.log("watch", position)
+              gotNewPosition(position);
+          });
+    }
 
 
-        document.addEventListener("pause", function () {
-            console.log("pause");
-            watch.clearWatch();
-        }, false);
 
+    $scope.$on('$ionicView.enter', function () {
+        console.log("enter");
+        setWatch(watchOptions);
+    });
+
+    $scope.$on('$ionicView.leave', function () {
+        console.log("leave");
+        $scope.watch.clearWatch();
     });
 
     
-    
+    var scheduledNotification = [];
 
     var positionMarker;
     function gotNewPosition(position) {
@@ -208,6 +211,7 @@ angular.module('starter.controllers', [])
             position: $scope.myPos
         });
 
+
         angular.forEach($scope.pois, function (poi, poi_id) {
             if (poi.poi_autoPlayMedia === "1") {
                 var gpsPoiPos = $scope.gps[poi.gps_id];
@@ -218,14 +222,39 @@ angular.module('starter.controllers', [])
                 var lon2 = gpsPoiPos.gps_long;
 
                 var d = calculator.distanceBetweenPositions(lat1, lon1, lat2, lon2)
-                console.log(lat1, lon1, lat2, lon2, "distance:", d)
-                if (d < 10) {
-                    $state.go('app.position', { locationId: $scope.locID, posId: poi.poi_id });
+                //console.log(lat1, lon1, lat2, lon2, "distance:", d)
+                if (+d < otherSettings.range) {
+                   
+                    if (scheduledNotification.indexOf(poi_id) == -1) {
+                        console.log("schedule notification")
+                        scheduledNotification.push(poi_id)
+                        $cordovaLocalNotification.schedule({
+                            id: poi_id,
+                            title: poi.poi_name,
+                            text:poi.poi_description,
+                        }).then(function (result) {
+                            //console.log("notification result: ", result)
+                            // ...
+                        });
+                    }
                 }
             }
             
-        });       
+        });      
     };
+  
+    $rootScope.$on('$cordovaLocalNotification:click',
+       function (event, notification, state) {
+           $state.go('app.position', { locationId: $scope.locID, posId: notification.id });
+           console.log("clicked on notification", event, notification, state);
+       });
+
+//   $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+//       $timeout(function () {
+//            $scope.watch.clearWatch();
+//        }, 2000);
+//    });
+
     function addMarker(gps, poi, map) {
         var pos = { lat: Number(gps.gps_lat), lng: Number(gps.gps_long) }
         var label = poi.poi_name;
@@ -288,6 +317,8 @@ angular.module('starter.controllers', [])
     }
 
     $scope.isMediaType = function (type) {
+        if ($scope.getActiveMedia() === undefined)
+            return false;
 
         switch(type){
             case "image":
