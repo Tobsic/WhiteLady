@@ -21,10 +21,12 @@ $options = array(
         'content' => http_build_query($login_data),
     ),
 );
+//var_dump($options);
 $context  = stream_context_create($options);
+//var_dump($context);
 $result = file_get_contents($apiURL."poi", false, $context);
-
-
+//var_dump($apiURL."poi");
+//var_dump($result);
 //var_dump(json_decode($result, true));
 $json = json_decode($result,true);
 ?>
@@ -32,7 +34,7 @@ $json = json_decode($result,true);
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Login Page : Brandberg</title>
+		<title>Organize your POIs</title>
 		<link  href="login.css" rel= "stylesheet">
 		<script>
 			function deletePopup(url) {
@@ -58,42 +60,62 @@ $json = json_decode($result,true);
 		<?php
 			if (isset($_SESSION['username']) && isset($_SESSION['password'])){
 		 ?>
-		<table class="table table-bordered table-hover">
-	                <thead>
-	                    <tr>
-	                    <th>POI#</th>
-	                    <th>NAME</th>
-						<th>DESCRIPTION</th>
-						<th>MODIFY</th>
-						<th>DELETE</th>
-						<th>MEDIA</th>
-	                    </tr>
-	                </thead>
-	                <tbody>
-		<?php
 
-		$poiList = $json['Poi']['records'];
-		foreach($poiList as &$poi) {
-			?>
-				<tr>
-		                    <td><?php echo $poi[0]; ?></td>
-		                    <td><?php echo $poi[3]; ?></td>
-		                    <td><?php echo $poi[4]; ?></td>
-		                    <td class="text-center" ><a href="poi.php?poiId=<?php echo $poi[0]; ?>"><img src="img_res/edit.png" alt="Modify" /></a></td>
-							<td class="text-center"><a href="#" onClick=<?php echo "\"deletePopup('./delete.php?poiId=$poi[0]')\"";?>><img src="img_res/Delete_24.png" alt="Delete" /></a></td>
-							<td class="text-center"><a href="medialist.php?poiId=<?php echo $poi[0];?>"><img src="img_res/Upload_24.png" alt="Media" /></a></td>
-		                    <!--td class="text-center"><a href="javascript: delete_user(<?php echo $row['id']; ?>)"><img src="images/delete_icon.png" alt="Delete" /></a></td -->
-		         </tr>
-		<?php
-			}
-      echo "</tbody>";
-    	echo "</table>";
-			echo '<a href="poi.php">Create new POI</a>';
-		} else {
+		 <div id="content">
+		 	<div class="table">
+				<div class="row headerRow">
+					<div class="col">
+						Name
+					</div>
+					<div class="col">
+						Description
+					</div>
+					<div class="col">
+						Modify
+					</div>
+					<div class="col">
+						Delete
+					</div>
+					<div class="col">
+						Manage Media
+					</div>
+				</div>
+				<?php
+				$poiList = $json['Poi']['records'];
+				foreach($poiList as &$poi) {
+					?>
+					<div class="row">
+						<div class="col">
+							<?php echo $poi[3]; ?>
+						</div>
+						<div class="col">
+							<?php echo $poi[4]; ?>
+						</div>
+						<div class="col">
+							<a href="poi.php?poiId=<?php echo $poi[0]; ?>"><img src="img_res/edit.png" alt="Modify" /></a>
+						</div>
+						<div class="col">
+							<a href="#" onClick=<?php echo "\"deletePopup('./delete.php?poiId=$poi[0]')\"";?>><img src="img_res/Delete_24.png" alt="Delete" /></a>
+						</div>
+						<div class="col">
+							<a href="medialist.php?poiId=<?php echo $poi[0];?>"><img src="img_res/Upload_24.png" alt="Media" /></a>
+						</div>
+					</div>
+				<?php
+					}
 				?>
-			<div>Login not successful, redirecting back to login in 3 seconds.</div>
-			<?php
-		}
+			 </div>
+
+			 <a href="poi.php" class="button">
+		 	 			Create new POI
+			 </a>
+		 </div>
+<?php
+	} else {
+			?>
+		<div>Login not successful, redirecting back to login in 3 seconds.</div>
+		<?php
+	}
   ?>
 	</body>
 </html>

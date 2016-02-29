@@ -1,5 +1,6 @@
 <?php
-include("settings/conf.php");
+include_once("settings/conf.php");
+include_once("password.php");
 class MySQL_CRUD_API extends REST_CRUD_API {
 
 	protected $queries = array(

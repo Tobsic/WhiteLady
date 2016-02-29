@@ -1,5 +1,5 @@
 <?php
-$url = 'http://localhost/ss2015/api/v1/api.php/Gps';
+$url = 'http://ss2015.pandaswelt.de/api/v1/api.php/Gps';
 $data = array('username' => 'TestUser',
               'password' => 'TestPassword');
               /*

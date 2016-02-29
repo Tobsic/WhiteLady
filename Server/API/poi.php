@@ -62,6 +62,7 @@
 
   </head>
   <body>
+    <div id="content">
     <form action="insertOrReplacePoi.php" method="post">
       <?php if(isset($poi_id))echo "<input type='hidden' name='poi_id' value='$poi_id'>"; ?>
       <?php if(isset($poi))echo "<input type='hidden' name='gps_id' value='".$poi["gps_id"]."'>"; ?>
@@ -77,25 +78,27 @@
       </div>
       <div class="form_divider"><h3>Positioning:</h3></div>
       <div class="form_row">
-        <div class="form_row_left">
           <label for="poi_orientation">Orientation (in degrees):</label>
           <input type="number" id="poi_orientation" name="poi_orientation"  maxlength="5" min="0" max="360" step="0.01" <?php if(isset($poi)) echo "value=\"".$poi["poi_orientation"]."\"";?>>
-        </div>
-        <div class="form_row_right">
+      </div>
+      <div class="form_row">
           <label for="gps_longitude">Longitude*:</label>
           <input type="number" id="gps_longitude" name="gps_longitude" required="1" maxlength="25" min="-99" max="99" step="0.00000000000000001" <?php if(isset($poi)) echo "value=\"".$poi["gps_longitude"]."\"";?>></br>
+      </div>
+      <div class="form_row">
           <label for="gps_latitude">Latitude*:</label>
           <input type="number" id="gps_latitude" name="gps_latitude"  required="1" maxlength="22" min="-99" max="99" step="0.000000000000000001" <?php if(isset($poi)) echo "value=\"".$poi["gps_latitude"]."\"";?>></br>
-          
+      </div>
+      <div class="form_row">
           <label for="poi_autoPlayMedia">Automatical show POI:</label>
           <input type="checkbox" id="poi_autoPlayMedia" name="poi_autoPlayMedia[]" value="true"  <?php if(isset($poi))if($poi["poi_autoPlayMedia"] === "1")echo "checked=\"checked\"";?>>
         </div>
-      </div>
       <div class="form_row">
         <input type="submit" />
         <input type="reset" />
      </div>
     </form>
-    <a href="main.php">Back to poi-list</a>
+    <a href="main.php" class="button">Back to poi-list</a>
+    </div>
   </body>
 </html>

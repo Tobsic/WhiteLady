@@ -59,36 +59,40 @@
 
   </head>
   <body>
-    <form enctype="multipart/form-data" action="insertOrReplaceMedia.php" method="post">
-      <?php if(isset($poi_id))echo "<input type='hidden' name='poi_id' value='$poi_id'>"; ?>
-      <?php if(isset($media_id))echo "<input type='hidden' name='media_id' value='$media_id'>"; ?>
-      <div class="form_divider"><h3>General information:</h3></div>
-      <div class="form_row">
-        <label for="media_name">Media-Name*:</label>
-        <input type="text" id="media_name" name="media_name" maxlength="255" required="1" <?php if(isset($media)){echo "value=\"".$media["media_name"]."\"";}?>>
-      </div>
-      <div class="form_row">
-        <label for="media_pagenumber">PageNumber*:</label>
-        <input type="number" id="media_pagenumber" name="media_pagenumber" maxlength="99" min="0" required="1"<?php if(isset($media)) echo "value=\"".$media["media_pagenumber"]."\"";?>>
-      </div>
-      <div class="form_divider"><h3>Media:</h3></div>
-      <div class="form_row">
-        <label for="media_file">Upload new file:</label>
-        <input type="file" id="media_file" name="media_file">
-      </div>
-      <div class="form_row">
-        <label for="media_content">Media-URL / Content:</label>
-        <input type="text" id="media_content" name="media_content" maxlength="10000" <?php if(isset($media)){echo "value=\"".$media["media_content"]."\"";}?>>
-        <?php if(isset($media)) {
-              echo "<span>Media-Type: <i>".$media["media_type"]."</i></span>";
-              echo "<input type=\"hidden\" name=\"media_type\" value=\"".$media["media_type"]."\">";
-            } ?>
-      </div>
-      <div class="form_row">
-        <input type="submit" />
-        <input type="reset" />
-     </div>
-    </form>
-    <a href="medialist.php?poiId=<?php echo $poi_id; ?>">Back to media-list</a>
+    <div id="content">
+      <form enctype="multipart/form-data" action="insertOrReplaceMedia.php" method="post">
+        <?php if(isset($poi_id))echo "<input type='hidden' name='poi_id' value='$poi_id'>"; ?>
+        <?php if(isset($media_id))echo "<input type='hidden' name='media_id' value='$media_id'>"; ?>
+        <div class="form_divider"><h3>General information:</h3></div>
+        <div class="form_row">
+          <label for="media_name">Media-Name*:</label>
+          <input type="text" id="media_name" name="media_name" maxlength="255" required="1" <?php if(isset($media)){echo "value=\"".$media["media_name"]."\"";}?>>
+        </div>
+        <div class="form_row">
+          <label for="media_pagenumber">PageNumber*:</label>
+          <input type="number" id="media_pagenumber" name="media_pagenumber" maxlength="99" min="0" required="1"<?php if(isset($media)) echo "value=\"".$media["media_pagenumber"]."\"";?>>
+        </div>
+        <div class="form_divider"><h3>Media:</h3></div>
+        <div class="form_row">
+          <label for="media_file">Upload new file:</label>
+          <input type="file" id="media_file" name="media_file">
+        </div>
+        <div class="form_row">
+          <label for="media_content">Media-URL / Content:</label>
+          <input type="text" id="media_content" name="media_content" maxlength="10000" <?php if(isset($media)){echo "value=\"".$media["media_content"]."\"";}?>>
+        </div>
+          <?php if(isset($media)) {
+                echo '<div class="form_row">';
+                echo "<label for='media_content'>Media-Type: <i>".$media["media_type"]."</i></label>";
+                echo "<input type=\"hidden\" name=\"media_type\" value=\"".$media["media_type"]."\">";
+                echo '</div>';
+              } ?>
+        <div class="form_row">
+          <input type="submit" />
+          <input type="reset" />
+       </div>
+      </form>
+      <a href="medialist.php?poiId=<?php echo $poi_id; ?>" class="button">Back to media-list</a>
+    </div>
   </body>
 </html>

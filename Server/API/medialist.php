@@ -43,38 +43,55 @@ $json = json_decode($result,true);
 		<?php
 			if (isset($_SESSION['username']) && isset($_SESSION['password'])){
 		 ?>
-		<table class="table table-bordered table-hover">
-	                <thead>
-                    <tr>
-	                    <th>Name</th>
-	                    <th>Content</th>
-											<th>MediaType</th>
-											<th>PageNumber</th>
-											<th>MODIFY</th>
-											<th>DELETE</th>
-                    </tr>
-	                </thead>
-	                <tbody>
-		<?php
 
-		$mediaList = $json['Media']['records'];
-		foreach($mediaList as &$media) {
-			?>
-				<tr>
-		                    <td><?php echo $media[2]; ?></td>
-		                    <td><?php echo $media[3]; ?></td>
-		                    <td><?php echo $media[4]; ?></td>
-												<td><?php echo $media[5]; ?></td>
-		                    <td class="text-center" ><a href="media.php?poiId=<?php echo $poiId; ?>&mediaId=<?php echo $media[0]?>"><img src="./img_res/edit.png" alt="Modify" /></a></td>
-							<td class="text-center"><a href="#" onClick=<?php echo "\"deletePopup('./deleteMedia.php?mediaId=$media[0]&poiId=$poiId')\"";?>><img src="./img_res/Delete_24.png" alt="Delete" /></a></td>
-		         </tr>
-		<?php
-			}
-      echo "</tbody>";
-    	echo "</table>";
-			echo "<a href='media.php?poiId=$poiId'>Create new media-entry</a>";
-			?>
-			<a href="main.php">Back to poi-list</a>
+		 		 <div id="content">
+		 		 	<div class="table">
+		 				<div class="row headerRow">
+		 					<div class="col">
+		 						Name
+		 					</div>
+		 					<div class="col">
+		 						Page
+		 					</div>
+		 					<div class="col">
+		 						MediaType
+		 					</div>
+		 					<div class="col">
+		 						Modify
+		 					</div>
+		 					<div class="col">
+		 						Delete
+		 					</div>
+		 				</div>
+		 				<?php
+						$mediaList = $json['Media']['records'];
+						foreach($mediaList as &$media) {
+		 					?>
+		 					<div class="row">
+		 						<div class="col">
+		 					  	<?php echo $media[2]; ?>
+		 						</div>
+		 						<div class="col">
+		 							<?php echo $media[5]; ?>
+		 						</div>
+		 						<div class="col">
+		 							<?php echo $media[4]; ?>
+		 						</div>
+		 						<div class="col">
+		 							<a href="media.php?poiId=<?php echo $poiId; ?>&mediaId=<?php echo $media[0]?>"><img src="./img_res/edit.png" alt="Modify" /></a>
+		 						</div>
+		 						<div class="col">
+		 							<a href="#" onClick=<?php echo "\"deletePopup('./deleteMedia.php?mediaId=$media[0]&poiId=$poiId')\"";?>><img src="./img_res/Delete_24.png" alt="Delete" /></a>
+		 						</div>
+		 					</div>
+		 				<?php
+		 					}
+		 				?>
+		 			 </div>
+					 <a href='media.php?poiId=<?php echo $poiId; ?>'  class="button">Create new media-entry</a>
+					 <a href="main.php"  class="button">Back to media-list</a>
+		 		 </div>
+
 			<?php
 		} else {
 				?>
