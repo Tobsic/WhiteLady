@@ -48,7 +48,9 @@ $json = json_decode($result,true);
 			if($json['loggedIn'] === 1){
 				$_SESSION['username'] = $username;
 				$_SESSION['password'] = $password;
-				$_SESSION['location_id'] = $json['location_id'];
+				if(isset($json['location_id'])){
+					$_SESSION['location_id'] = $json['location_id'];
+				}
 			} else {
 				session_destroy();
 				echo "<meta http-equiv=\"refresh\" content=\"3;url=$baseURL\">";
@@ -58,7 +60,7 @@ $json = json_decode($result,true);
 		</head>
 		<body>
 		<?php
-			if (isset($_SESSION['username']) && isset($_SESSION['password'])){
+			if (isset($_SESSION['username']) && isset($_SESSION['password']) && isset($_SESSION['location_id'])){
 		 ?>
 
 		 <div id="content">
@@ -109,13 +111,26 @@ $json = json_decode($result,true);
 			 <a href="poi.php" class="button">
 		 	 			Create new POI
 			 </a>
+
+			 <a href="location.php" class="button">
+		 	 			Modify location
+			 </a>
+
 		 </div>
-<?php
-	} else {
-			?>
-		<div>Login not successful, redirecting back to login in 3 seconds.</div>
-		<?php
-	}
-  ?>
+	 		<?php
+			}
+			if(!isset($_SESSION['location_id'])){
+				?>
+				<a href="location.php" class="button">
+						 Create location
+				</a>
+				<?php
+			}
+			if($json['loggedIn'] !== 1){
+					?>
+				<div>Login not successful, redirecting back to login in 3 seconds.</div>
+				<?php
+			}
+		  ?>
 	</body>
 </html>

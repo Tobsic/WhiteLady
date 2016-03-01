@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.15
+-- version 4.2.5
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Erstellungszeit: 13. Nov 2015 um 12:23
--- Server-Version: 5.5.44-0ubuntu0.14.04.1
--- PHP-Version: 5.5.9-1ubuntu4.13
+-- Host: localhost:3306
+-- Erstellungszeit: 01. Mrz 2016 um 13:07
+-- Server Version: 5.5.47-0ubuntu0.12.04.1
+-- PHP-Version: 5.5.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Datenbank: `ss2015`
@@ -27,12 +27,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `Acl` (
-  `acl_id` int(6) NOT NULL,
+`acl_id` int(6) NOT NULL,
   `location_id` int(6) NOT NULL,
   `acl_username` varchar(255) NOT NULL,
   `acl_password` varchar(255) NOT NULL,
   `acl_isAdmin` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Daten für Tabelle `Acl`
@@ -49,10 +49,10 @@ INSERT INTO `Acl` (`acl_id`, `location_id`, `acl_username`, `acl_password`, `acl
 --
 
 CREATE TABLE IF NOT EXISTS `Gps` (
-  `gps_id` int(6) NOT NULL,
+`gps_id` int(6) NOT NULL,
   `gps_long` double(22,20) NOT NULL,
   `gps_lat` double(22,20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
 -- Daten für Tabelle `Gps`
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `Gps` (
 
 INSERT INTO `Gps` (`gps_id`, `gps_long`, `gps_lat`) VALUES
 (27, 12.13124131400000000000, -12.12310000000000000000),
-(28, -45.12124124000000000000, 45.12312120000000000000),
+(28, 14.67543000000000000000, -21.09411700000000000000),
 (29, 12.12234124100000000000, 0.00000000000000000000),
 (30, 12.12234124100000000000, 0.00000000000000000000),
 (31, 12.12234124100000000000, 41.12312354100000000000),
@@ -69,9 +69,10 @@ INSERT INTO `Gps` (`gps_id`, `gps_long`, `gps_lat`) VALUES
 (34, 12.12234124100000000000, 0.00000000000000000000),
 (35, 12.12234124100000000000, 41.12312354100000000000),
 (36, 12.12234124100000000000, 41.12312354100000000000),
-(37, 12.12234124100000000000, 41.12312354100000000000),
-(38, 12.34567890000000000000, 9.87651560000000000000),
-(39, 45.64645334567900000000, -76.56776567876500000000);
+(37, 14.67509700000000000000, -21.09510800000000000000),
+(38, 14.67401300000000000000, -21.09525800000000000000),
+(39, 14.67268300000000000000, -21.09795100000000000000),
+(40, 13.56273700000000000000, 52.52004300000000000000);
 
 -- --------------------------------------------------------
 
@@ -80,19 +81,21 @@ INSERT INTO `Gps` (`gps_id`, `gps_long`, `gps_lat`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `Location` (
-  `location_id` int(6) NOT NULL,
+`location_id` int(6) NOT NULL,
   `location_name` varchar(255) NOT NULL COMMENT 'Name of location',
   `location_url` varchar(255) DEFAULT NULL,
   `location_banner_url` varchar(255) DEFAULT NULL,
-  `location_map_url` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `location_lat` double(22,20) NOT NULL,
+  `location_long` double(22,20) NOT NULL,
+  `location_zoom` int(3) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Daten für Tabelle `Location`
 --
 
-INSERT INTO `Location` (`location_id`, `location_name`, `location_url`, `location_banner_url`, `location_map_url`) VALUES
-(3, 'Spitzkoppe', NULL, NULL, NULL);
+INSERT INTO `Location` (`location_id`, `location_name`, `location_url`, `location_banner_url`, `location_lat`, `location_long`, `location_zoom`) VALUES
+(3, 'Spitzkoppe', 'Test', 'http://www.roomsforafrica.com/images/namibia_white_lady.jpg', -21.10257800000000000000, 14.66789200000000000000, 14);
 
 -- --------------------------------------------------------
 
@@ -101,24 +104,25 @@ INSERT INTO `Location` (`location_id`, `location_name`, `location_url`, `locatio
 --
 
 CREATE TABLE IF NOT EXISTS `Media` (
-  `media_id` int(6) NOT NULL,
+`media_id` int(6) NOT NULL,
   `poi_id` int(6) NOT NULL,
   `media_name` varchar(255) DEFAULT NULL,
   `media_content` varchar(10000) DEFAULT NULL,
   `media_type` varchar(50) NOT NULL,
   `media_pagenumber` int(2) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
 -- Daten für Tabelle `Media`
 --
 
 INSERT INTO `Media` (`media_id`, `poi_id`, `media_name`, `media_content`, `media_type`, `media_pagenumber`) VALUES
-(13, 27, 'Database', 'http://localhost/ss2015/upload/770274bef2705960a30230ad941d0eae.png', 'image/png', 1),
-(14, 27, 'Databse-SQL', 'http://localhost/ss2015/upload/d1380bacf8f215ca9c895ba64120f975.pdf', 'application/pdf', 0),
-(15, 27, 'Text', 'Long text can be made herekadkkandsndnkandkjnasjdjadsjndkjnajdsnkjfnasndknkjfabjsdkjbfasjbdkjbfabskdbkjfajflka', 'text/plain', 0),
+(15, 27, 'Text', 'Long text can be made herekadkkandsndnkandkjnasjdjadsjndkjnajdsnkjfnasndknkjfabjsdkjbfasjbdkjbfabskdbkjfajflka', 'text/plain', 1),
 (16, 37, 'NKbk', 'test', 'text/plain', 1),
-(17, 38, 'vgf', 'http://localhost/ss2015/upload/d1956fcfde8aee841b40b287c78d9959.pdf', 'application/pdf', 6);
+(18, 36, 'Wolf', 'http://ss2015.pandaswelt.de/upload/fe94f4ec52e74abd5c9c178999a3b366.jpg', 'image/jpeg', 1),
+(19, 36, 'Cat', 'http://ss2015.pandaswelt.de/upload/36489ac8cd85f0dedcccec2718dcb484.mp4', 'video/mp4', 2),
+(20, 38, 'TestMedia', 'http://ss2015.pandaswelt.de/upload/33b41e68d5d2f57cc105263806633fca.jpg', 'image/jpeg', 1),
+(21, 0, NULL, NULL, '', 0);
 
 -- --------------------------------------------------------
 
@@ -127,94 +131,88 @@ INSERT INTO `Media` (`media_id`, `poi_id`, `media_name`, `media_content`, `media
 --
 
 CREATE TABLE IF NOT EXISTS `Poi` (
-  `poi_id` int(6) NOT NULL,
+`poi_id` int(6) NOT NULL,
   `location_id` int(6) NOT NULL,
   `gps_id` int(6) NOT NULL,
   `poi_name` varchar(255) NOT NULL,
   `poi_description` varchar(1000) DEFAULT NULL,
   `poi_orientation` double(5,2) DEFAULT NULL,
   `poi_autoPlayMedia` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
 
 --
 -- Daten für Tabelle `Poi`
 --
 
 INSERT INTO `Poi` (`poi_id`, `location_id`, `gps_id`, `poi_name`, `poi_description`, `poi_orientation`, `poi_autoPlayMedia`) VALUES
-(27, 3, 28, 'Kassungs-POI', 'Whatever the description is', 270.00, 1),
-(36, 3, 37, 'POI', 'POIPOIOIOI', 0.00, 1),
-(37, 3, 38, 'POIOIO', 'OIOIOIO', 0.00, 1),
-(38, 3, 39, 'ujn', 'zhhu', 77.26, 1);
+(27, 3, 28, '1. Poi', 'Desc 1', 270.00, 1),
+(36, 3, 37, '2. Poi', 'Desc 2', 0.00, 1),
+(37, 3, 38, '3. Poi', 'Desc 3', 0.00, 1),
+(38, 3, 39, '4. Poi', 'Desc 4', 77.26, 1);
 
 --
--- Indizes der exportierten Tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indizes für die Tabelle `Acl`
+-- Indexes for table `Acl`
 --
 ALTER TABLE `Acl`
-  ADD PRIMARY KEY (`acl_id`),
-  ADD UNIQUE KEY `acl_username` (`acl_username`),
-  ADD KEY `location_id_foreignKey` (`acl_id`),
-  ADD KEY `location_id` (`location_id`);
+ ADD PRIMARY KEY (`acl_id`), ADD UNIQUE KEY `acl_username` (`acl_username`), ADD KEY `location_id_foreignKey` (`acl_id`), ADD KEY `location_id` (`location_id`);
 
 --
--- Indizes für die Tabelle `Gps`
+-- Indexes for table `Gps`
 --
 ALTER TABLE `Gps`
-  ADD PRIMARY KEY (`gps_id`);
+ ADD PRIMARY KEY (`gps_id`);
 
 --
--- Indizes für die Tabelle `Location`
+-- Indexes for table `Location`
 --
 ALTER TABLE `Location`
-  ADD PRIMARY KEY (`location_id`);
+ ADD PRIMARY KEY (`location_id`);
 
 --
--- Indizes für die Tabelle `Media`
+-- Indexes for table `Media`
 --
 ALTER TABLE `Media`
-  ADD PRIMARY KEY (`media_id`),
-  ADD KEY `poi_id` (`poi_id`);
+ ADD PRIMARY KEY (`media_id`), ADD KEY `poi_id` (`poi_id`);
 
 --
--- Indizes für die Tabelle `Poi`
+-- Indexes for table `Poi`
 --
 ALTER TABLE `Poi`
-  ADD PRIMARY KEY (`poi_id`),
-  ADD KEY `foreign_keys` (`location_id`,`gps_id`) USING BTREE,
-  ADD KEY `poi_to_gps` (`gps_id`);
+ ADD PRIMARY KEY (`poi_id`), ADD KEY `foreign_keys` (`location_id`,`gps_id`) USING BTREE, ADD KEY `poi_to_gps` (`gps_id`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT für Tabelle `Acl`
+-- AUTO_INCREMENT for table `Acl`
 --
 ALTER TABLE `Acl`
-  MODIFY `acl_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `acl_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
--- AUTO_INCREMENT für Tabelle `Gps`
+-- AUTO_INCREMENT for table `Gps`
 --
 ALTER TABLE `Gps`
-  MODIFY `gps_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
+MODIFY `gps_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
 --
--- AUTO_INCREMENT für Tabelle `Location`
+-- AUTO_INCREMENT for table `Location`
 --
 ALTER TABLE `Location`
-  MODIFY `location_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `location_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT für Tabelle `Media`
+-- AUTO_INCREMENT for table `Media`
 --
 ALTER TABLE `Media`
-  MODIFY `media_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `media_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
--- AUTO_INCREMENT für Tabelle `Poi`
+-- AUTO_INCREMENT for table `Poi`
 --
 ALTER TABLE `Poi`
-  MODIFY `poi_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
+MODIFY `poi_id` int(6) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
 --
 -- Constraints der exportierten Tabellen
 --
@@ -223,14 +221,14 @@ ALTER TABLE `Poi`
 -- Constraints der Tabelle `Acl`
 --
 ALTER TABLE `Acl`
-  ADD CONSTRAINT `acl_to_location` FOREIGN KEY (`location_id`) REFERENCES `Location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD CONSTRAINT `acl_to_location` FOREIGN KEY (`location_id`) REFERENCES `Location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints der Tabelle `Poi`
 --
 ALTER TABLE `Poi`
-  ADD CONSTRAINT `poi_to_gps` FOREIGN KEY (`gps_id`) REFERENCES `Gps` (`gps_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `poi_to_location` FOREIGN KEY (`location_id`) REFERENCES `Location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD CONSTRAINT `poi_to_gps` FOREIGN KEY (`gps_id`) REFERENCES `Gps` (`gps_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `poi_to_location` FOREIGN KEY (`location_id`) REFERENCES `Location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
