@@ -29,6 +29,7 @@ angular.module('starter.controllers', [])
         });
     }
     $rootScope.functions.downloadMedia = function (MediaObject) {
+        console.log("Media: ", MediaObject)
         switch(true) {
             case /image/.test(MediaObject.media_type):
                 $rootScope.functions.downloadFile(MediaObject.media_content, "images")
@@ -82,9 +83,10 @@ angular.module('starter.controllers', [])
     sharedProperties.updateGpss()
     sharedProperties.updateMedia().then(function () {
         $scope.media = sharedProperties.getMedia()
-        console.log($scope.media)
+        
         //TODO: Download media for all locations
         angular.forEach($scope.media, function (value, key) {
+            console.log("Download Media", value)
             $rootScope.functions.downloadMedia(value);
         });
     });
@@ -283,7 +285,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('PositionCtrl', function($scope, sharedProperties, $stateParams) {
+.controller('PositionCtrl', function ($scope, sharedProperties, $stateParams, $ionicModal) {
     $scope.locations = sharedProperties.getLocations();
     $scope.locID = $stateParams.locationId;
     $scope.posID = $stateParams.posId;
@@ -336,6 +338,27 @@ angular.module('starter.controllers', [])
 
         }
     }
+
+    $scope.closeModal = function () {
+        $scope.modal.hide();
+    };
+
+
+    $scope.openFullscreen = function () {
+        if ($scope.isMediaType("image")) {
+            $scope.path = $scope.downloadedFiles['images'][$scope.getActiveMedia().media_content];
+            $ionicModal.fromTemplateUrl('templates/image-modal.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.modal.show();
+            });
+        }     
+    }
+    $scope.$on('$destroy', function () {
+        $scope.modal.remove();
+    });
 
 })
 

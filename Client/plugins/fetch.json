@@ -107,8 +107,9 @@
     },
     "cordova-plugin-file-opener2": {
         "source": {
-            "type": "registry",
-            "id": "cordova-plugin-file-opener2"
+            "type": "git",
+            "url": "https://github.com/pwlin/cordova-plugin-file-opener2.git",
+            "subdir": "."
         },
         "is_top_level": true,
         "variables": {}

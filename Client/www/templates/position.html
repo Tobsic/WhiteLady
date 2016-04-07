@@ -21,15 +21,17 @@
                 </div>
                 <div class="item item-text-wrap">
                     <span ng-show="isMediaType('text')">{{getActiveMedia().media_content}}</span>
-                    <img ng-show="isMediaType('image')" ng-src="{{downloadedFiles['images'][getActiveMedia().media_content]}}">
-                    <video  ng-show="isMediaType('video')" ng-src="{{downloadedFiles['videos'][getActiveMedia().media_content]}}" type="{{getActiveMedia().media_type}}" controls loop autoplay />
+                    <img ng-show="isMediaType('image')" ng-src="{{downloadedFiles['images'][getActiveMedia().media_content]}}" ng-click="openFullscreen()">
+                    <video  ng-show="isMediaType('video')" ng-src="{{downloadedFiles['videos'][getActiveMedia().media_content]}}" type="{{getActiveMedia().media_type}}" controls loop autoplay/>
                 </div>
+                <!--
                 <div class="item item-text-wrap balanced-bg dark centerText" ng-show="isMediaType('image')" ng-click="functions.openMediaExternal(downloadedFiles['images'][getActiveMedia().media_content], getActiveMedia().media_type)">
                     Tap here to open external!
                 </div>
                 <div class="item item-text-wrap balanced-bg dark centerText" ng-show="isMediaType('video')" ng-click="functions.openMediaExternal(downloadedFiles['videos'][getActiveMedia().media_content], getActiveMedia().media_type)">
                     Tap here to open external!
                 </div>
+                -->
                 <div class="item item-text-wrap balanced-bg dark centerText" ng-show="" ng-click="functions.openMediaExternal(downloadedFiles['applications'][getActiveMedia().media_content], getActiveMedia().media_type)">
                     Unsupported document - Tap here to open external!. </p>
                 </div>
